@@ -1,9 +1,14 @@
 Cloud42 - Management Framework for Amazon EC2
 ===========================================
 
-An introduction into Cloud42 as well as detailed documentation can be found on the official project website at http://cloud42.net .
+An introduction into Cloud42 as well as detailed documentation can be found on the official project website at [http://cloud42.net] .
 
-You can download the binaries from here: http://cloud42.net/download.php
+You can download the binaries from here: [http://cloud42.net/download.php]
+
+
+Licence
+-------
+[LGPL v3](http://www.opensource.org/licenses/lgpl-3.0.html)
 
 
 Building and Running Cloud42
@@ -11,40 +16,41 @@ Building and Running Cloud42
 
 This section describes how to build Cloud42. If you just want to use it, you can download the binaries (see link above) and skip directly to point 7.
 
-1. Go download&configure Maven 2.0.9 if you don't have it yet: http://maven.apache.org/download.html. Cloud42 requires Java. It was developed using version 1.6, but it should be able to run on 1.5.x as well. In any case, check your Java installation and make sure your JAVA_HOME environment variable is set.
+1. Go download&configure Maven 2 if you don't have it yet: [http://maven.apache.org/download.html]. Cloud42 requires Java. It was developed using version 1.6, but it should be able to run on 1.5.x as well. In any case, check your Java installation and make sure your JAVA_HOME environment variable is set.
 
 2. Cloud42 needs to know your AWS credentials to pass its unit tests. You have to enter them in the file core/module-configuration/src/main/resources/test-config.properties
 
-  Note: This file also contains an option allowing you to enable all tests, including the ones that require starting and stopping instances (and therefore cause costs). Adjust it to your needs.
+   Note: This file also contains an option allowing you to enable all tests, including the ones that require starting and stopping instances (and therefore cause costs). Adjust it to your needs.
 
-  Note 2: Don't worry, the configuration file containing your AWS credentials will not be included in the resulting WAR file when building Cloud42, since it is only referenced in scope "test".
+   Note 2: Don't worry, the configuration file containing your AWS credentials will not be included in the resulting WAR file when building Cloud42, since it is only referenced in scope "test".
 
-  Note 3: If you do not know your credentials or even do not have an AWS account yet, building Cloud42 is possible though by skipping the tests. Simply add the parameter -Dmaven.test.skip to the "mvn clean install" mentioned below.
+   Note 3: If you do not know your credentials or even do not have an AWS account yet, building Cloud42 is possible though by skipping the tests. Simply add the parameter -Dmaven.test.skip to the "mvn clean install" mentioned below.
 
 
 3. Now execute a
-  > mvn clean install
-  from the root directory (the directory that contains this file)
+   > mvn clean install
+
+   from the root directory (the directory that contains this file)
 
 4. Start the database. To run Cloud42, you have to start the HSQL database in server mode. Go to tools/hsqldb/database and type
-  > java -classpath ../lib/hsqldb.jar org.hsqldb.Server
+   > java -classpath ../lib/hsqldb.jar org.hsqldb.Server
 
 5. Run webapp:
 
-  Now you can start the web application using Jetty, a lightweight container. From the webapp folder, run
-  > mvn jetty:run
+   Now you can start the web application using Jetty, a lightweight container. From the webapp folder, run
+   > mvn jetty:run
 
-  Browse to http://localhost:8080/Cloud42 and enjoy.
+   Browse to http://localhost:8080/Cloud42 and enjoy.
 
 6. Run webservice
 
-  The webservice is a simple web application that includes the Axis2 Servlet. This means, you can deploy it without any installations or configurations.
-  From the webservice folder, type
-  > mvn jetty:run
+   The webservice is a simple web application that includes the Axis2 Servlet. This means, you can deploy it without any installations or configurations.
+   From the webservice folder, type
+   > mvn jetty:run
 
-  The WSDLs can be found at http://localhost:8080/Cloud42WS/Cloud42BaseService?wsdl, http://localhost:8080/Cloud42WS/Cloud42FileService?wsdl, http://localhost:8080/Cloud42WS/Cloud42RemotingService?wsdl and http://localhost:8080/Cloud42WS/Cloud42NotificationService?wsdl .
+   The WSDLs can be found at [http://localhost:8080/Cloud42WS/Cloud42BaseService?wsdl], [http://localhost:8080/Cloud42WS/Cloud42FileService?wsdl], [http://localhost:8080/Cloud42WS/Cloud42RemotingService?wsdl] and [http://localhost:8080/Cloud42WS/Cloud42NotificationService?wsdl] .
 
-  Note: if the web application from previous step is still running, you may want to use another port for the webservice. To do this, add the option -Djetty.port=8081 to your command.
+   Note: if the web application from previous step is still running, you may want to use another port for the webservice. To do this, add the option -Djetty.port=8081 to your command.
 
 
 7. If you want to use the webapp or the webservice with any application server of your choice, just deploy the .war files from the target folders in webapp/ or webservice/.
@@ -55,13 +61,16 @@ Working with the code
   
 * In order to build Eclipse project files simply execute
   > mvn eclipse:clean eclipse:eclipse
+  
   from the root folder and import the resulting project files into your Eclipse workspace.
   Don't forget to set a classpath variable in the Eclipse IDE for M2_REPO pointing to your local maven repository.
 
 * If you want to generate a project documentation including JavaDoc, execute the following steps:
   > mvn site
+  
   from the root folder to create the maven project site. Then:
   > mvn site:stage -DstagingDirectory="<your_folder>"
+  
   to deploy it to a folder of your choice. Warning: both of these steps are very time-consuming!
 
 
