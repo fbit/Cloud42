@@ -1,22 +1,22 @@
 Cloud42 - Management Framework for Amazon EC2
 ===========================================
 
-An introduction into Cloud42 as well as detailed documentation can be found on the official project website at [http://cloud42.net] .
+An introduction into Cloud42 as well as detailed documentation can be found on ***[the official project website](http://cloud42.net)***.
 
-You can download the binaries from here: [http://cloud42.net/download.php]
+You can download the binaries from the [download page](http://cloud42.net/download.php).
 
-
-Licence
+License
 -------
-[LGPL v3](http://www.opensource.org/licenses/lgpl-3.0.html)
+
+Cloud42 is licensed under the GNU Lesser General Public License ([LGPL v3](http://www.opensource.org/licenses/lgpl-3.0.html)).
 
 
 Building and Running Cloud42
 --------------------------
 
-This section describes how to build Cloud42. If you just want to use it, you can download the binaries (see link above) and skip directly to point 7.
+This section describes how to build Cloud42 from source. If you just want to use it, you can download the binaries (see link above) and skip directly to point 7.
 
-1. Go download&configure Maven 2 if you don't have it yet: [http://maven.apache.org/download.html]. Cloud42 requires Java. It was developed using version 1.6, but it should be able to run on 1.5.x as well. In any case, check your Java installation and make sure your JAVA_HOME environment variable is set.
+1. Go download&configure Maven 2 if you don't have it yet: [Download Maven](http://maven.apache.org/download.html). Cloud42 requires Java. It was developed using version 1.6, but it should be able to run on 1.5.x as well. In any case, check your Java installation and make sure your JAVA_HOME environment variable is set.
 
 2. Cloud42 needs to know your AWS credentials to pass its unit tests. You have to enter them in the file core/module-configuration/src/main/resources/test-config.properties
 
@@ -48,7 +48,7 @@ This section describes how to build Cloud42. If you just want to use it, you can
    From the webservice folder, type
    > mvn jetty:run
 
-   The WSDLs can be found at [http://localhost:8080/Cloud42WS/Cloud42BaseService?wsdl], [http://localhost:8080/Cloud42WS/Cloud42FileService?wsdl], [http://localhost:8080/Cloud42WS/Cloud42RemotingService?wsdl] and [http://localhost:8080/Cloud42WS/Cloud42NotificationService?wsdl] .
+   The WSDLs can be found at http://localhost:8080/Cloud42WS/Cloud42BaseService?wsdl, http://localhost:8080/Cloud42WS/Cloud42FileService?wsdl, http://localhost:8080/Cloud42WS/Cloud42RemotingService?wsdl and http://localhost:8080/Cloud42WS/Cloud42NotificationService?wsdl .
 
    Note: if the web application from previous step is still running, you may want to use another port for the webservice. To do this, add the option -Djetty.port=8081 to your command.
 
