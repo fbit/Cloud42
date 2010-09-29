@@ -1,0 +1,21 @@
+<serviceGroup>
+	<service name="Cloud42RemotingService">
+		<description>Cloud42 remoting service</description>
+		
+		<messageReceivers>
+	        <messageReceiver 
+		            mep="http://www.w3.org/2004/08/wsdl/in-only"
+		    		class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver"/>
+		     <messageReceiver
+		            mep="http://www.w3.org/2004/08/wsdl/in-out"
+		    		class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
+    	</messageReceivers>
+		<parameter name="ServiceClass">
+			de.jw.cloud42.webservice.Cloud42RemotingService
+		</parameter>
+		
+		
+		
+		
+	</service>
+</serviceGroup>

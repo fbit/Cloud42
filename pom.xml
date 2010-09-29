@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>de.jw.cloud42</groupId>
+  <version>1.2.0</version>
+  <artifactId>app</artifactId>
+  <packaging>pom</packaging>
+  <name>Cloud42</name>
+  
+  <url>http://cloud42.net</url>
+  <description>Cloud42 is a tool to control Amazon EC2. It provides a web based user interface as well as an extensive service layer that is accessible via Web service.</description>
+
+  
+  <modules>
+    <module>core</module>
+    <module>webservice</module>
+    <module>webapp</module>
+  </modules>
+
+
+  <developers>
+    <developer>
+      <id>fbitzer</id>
+      <name>Frank Bitzer</name>
+      <email>fbitzer@just-works.de</email>
+      <organization>just works! Software</organization>
+      <organizationUrl>http://www.just-works.de</organizationUrl>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <timezone>+2</timezone>
+    </developer>
+  </developers>
+  
+  <licenses>
+	  <license>
+	    <name>GNU Lesser General Public License</name>
+	    <url>http://www.opensource.org/licenses/lgpl-3.0.html</url>
+	    <distribution>manual</distribution>
+	    <comments>Cloud42 is licensed under the LGPLv3</comments>
+	  </license>
+  </licenses>
+
+  <organization>
+	    <name>just works! Software</name>
+	    <url>http://www.just-works.de</url>
+  </organization>
+
+
+
+  <!--
+  <issueManagement>
+      <system>Mantis</system>
+      <url>http://bugtracking.just-works.de</url>
+  </issueManagement> -->
+  
+  <reporting>
+    <plugins>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+        	<linksource>true</linksource>
+        	<aggregate>true</aggregate>
+        </configuration>
+      </plugin>
+      <!-- this plugin generates a linked version of the sourcecode on the project site-->
+      <!--<plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>jxr-maven-plugin</artifactId>
+      </plugin>     --> 
+    </plugins>
+  </reporting>
+
+
+
+  <build>
+  
+  
+    <plugins>
+	<!-- used to create a graph with all project dependencies
+		<plugin>
+          <groupId>ch.elca.el4j.maven.plugins</groupId>
+          <artifactId>maven-depgraph-plugin</artifactId>
+          <version>1.5</version>
+        </plugin>-->
+		
+       <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+          </configuration>
+        </plugin>
+
+      </plugins>
+	  <!--
+	 <extensions>
+		<extension>
+		<groupId>org.apache.maven.wagon</groupId>
+		<artifactId>wagon-ftp</artifactId>
+		<version>1.0-beta-3</version>
+		</extension>
+	</extensions>-->
+  </build>
+
+  <dependencies>
+      <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.0</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <repositories>
+        <repository>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <id>apache-maven-snapshots</id>
+            <url>http://people.apache.org/repo/m2-snapshot-repository</url>
+        </repository>
+        <repository>
+	            <id>java.net</id>
+	            <url>http://download.java.net/maven/1</url>
+	            <layout>legacy</layout>
+        </repository>
+
+        <repository>
+	          <id>maven2-repository.dev.java.net</id>
+	          <name>Java.net Repository for Maven</name>
+	          <url>http://download.java.net/maven/2/</url>
+	          <layout>default</layout>
+        </repository>
+
+        <repository>
+              <id>jboss-repository</id>
+              <name>The JBoss maven repo</name>
+              <url>http://repository.jboss.org/maven2</url>
+        </repository>
+
+        <repository>
+              <id>jboss SNAPSHOT repository</id>
+              <name>The JBoss maven repo for SNAPSHOTs</name>
+              <url>http://snapshots.jboss.org/maven2</url>
+        </repository>
+		
+		<repository>
+			<id>ibiblio</id>
+			<name>Ibiblio</name>
+			<url>http://www.ibiblio.org/maven2</url>
+			<releases><enabled>true</enabled></releases>
+			<snapshots><enabled>true</enabled></snapshots>
+		</repository>
+    </repositories>
+	
+	
+
+
+
+	<properties>
+		<seam.version>2.0.2.GA</seam.version>
+		<richfaces.version>3.2.2.SR1</richfaces.version>
+		<jetty.version>6.1.9</jetty.version>
+		<typica.version>1.6</typica.version>
+	</properties>
+</project>

@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+<ui:composition template="/template.xhtml">
+
+	<ui:define name="body">
+
+		<ui:include src="menu.xhtml">
+			<ui:param name="item" value="subscriptions" />
+		</ui:include>
+
+		<br />
+		<h:outputText value="#{messages.main_noCredentials}"
+			style="font-weight:bold; color:red;"
+			rendered="#{userManager.user.credentials==null}" />
+
+
+		<!-- include the popups -->
+		<a4j:region rendered="#{userManager.user.credentials!=null}">
+
+
+			<ui:include src="../popups/createSubscription.xhtml" />
+
+
+
+			<ui:include src="../tabs/subscriptions.xhtml" />
+
+		</a4j:region>
+
+	</ui:define>
+</ui:composition>
+
+</html>

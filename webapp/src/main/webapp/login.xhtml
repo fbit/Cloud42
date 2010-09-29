@@ -1,0 +1,76 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+
+<ui:composition template="/template.xhtml">
+
+	<ui:define name="body">
+		<h:form id="form">
+			<center>
+			
+			
+			<div id="messageBox" style="height: 34px; padding: 0px;"><rich:messages
+					globalOnly="true" layout="table" errorClass="message errorMessage"
+					infoClass="message" /></div>
+			
+			<br/>
+				<rich:panel style="width:300px">
+				<f:facet name="header">
+					<h:outputText value="#{messages.login_caption}" />
+				</f:facet>
+				<br/>
+				<!--<h:messages />-->
+				<h:panelGrid id="grid" columns="2" rendered="#{!identity.loggedIn}">
+
+					<h:outputText id="o1" value="#{messages.username}" />
+					<h:inputText id="name" value="#{identity.username}" size="25" />
+
+					<h:outputText id="o2" value="#{messages.password}" />
+					<h:inputSecret id="pwd" value="#{identity.password}" size="25" />
+
+
+					<h:outputText id="empty" value="" />
+					<h:commandButton value="#{messages.login}"
+						action="#{identity.login}">
+						<rich:componentControl for="progressPanel" operation="show"
+							event="onclick" />
+					</h:commandButton>
+
+					<br />
+					<br />
+					<br />
+					<br />
+
+					<a4j:commandLink value="#{messages.login_createAccount}" id="link"
+						action="#{userManager.newUser}" reRender="newName,newPwd" 
+						onclick="Richfaces.showModalPanel('panel');"/>
+					<!-- <rich:componentControl for="panel" attachTo="link" operation="show"
+						event="onclick" />-->
+
+
+				</h:panelGrid>
+
+				<h:outputText rendered="#{identity.loggedIn}"
+					value="#{messages.login_alreadyLoggedIn}" />
+
+				<br />
+				<s:link rendered="#{identity.loggedIn}"
+					value="#{messages.login_alreadyLoggedInGo}"
+					view="/private/main.xhtml" />
+
+
+			</rich:panel></center>
+		</h:form>
+
+		<ui:include src="popups/createAccount.xhtml" />
+
+
+
+	</ui:define>
+</ui:composition>
+
+</html>

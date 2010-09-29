@@ -1,0 +1,43 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>de.jw.cloud42.core</groupId>
+	<artifactId>service</artifactId>
+	<packaging>jar</packaging>
+	<version>1.2.0</version>
+
+	<name>Cloud42 Core - Base Service</name>
+	<description>
+		The real core of Cloud42 is its service layer, that provides the base functions
+		to interact with EC2 such as listing AMIs or starting and stopping instances. The service layer is used by
+		both the Cloud42 web application and the Cloud42 Web service.
+	</description>
+
+	<parent>
+		<groupId>de.jw.cloud42.core</groupId>
+		<artifactId>core</artifactId>
+		<version>1.2.0</version>
+	</parent>
+
+	<dependencies>
+
+		
+
+		<!-- internal dependencies -->
+		<dependency>
+			<groupId>de.jw.cloud42.core</groupId>
+			<artifactId>domain</artifactId>
+			<version>1.2.0</version>
+		</dependency>
+
+		<!-- module configuration in scope test to omit configuration file containing AWS credentials being compiled into the project's WAR file -->
+		<dependency>
+			<groupId>de.jw.cloud42.core</groupId>
+			<artifactId>module-configuration</artifactId>
+			<version>1.2.0</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+</project>

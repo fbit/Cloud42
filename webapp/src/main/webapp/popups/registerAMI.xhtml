@@ -1,0 +1,52 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+
+<ui:composition>
+	<!-- Panel for registering an AMI -->
+	<rich:modalPanel id="registerPanel" width="570" height="130"
+		resizeable="false">
+		<f:facet name="header">
+			<h:panelGroup>
+				<h:outputText value="#{messages.main_registerPanelCaption}"></h:outputText>
+			</h:panelGroup>
+		</f:facet>
+		<f:facet name="controls">
+			<h:panelGroup>
+				<h:graphicImage value="/images/close.png" style="cursor:pointer"
+					id="hidelink2" />
+				<rich:componentControl for="registerPanel" attachTo="hidelink2"
+					operation="hide" event="onclick" />
+			</h:panelGroup>
+		</f:facet>
+
+		<h:form id="registerForm">
+
+			<rich:panel bodyClass="rich-laguna-panel-no-header lightBackground">
+
+				<h:panelGrid id="grid" columns="2">
+
+					<h:outputText value="#{messages.main_registerPanelAMILocation}" />
+					<h:inputText size="62" id="location" value="#{location}" />
+
+				</h:panelGrid>
+				<br />
+				<a4j:commandButton id="register"
+					value="#{messages.main_registerPanelRegister}"
+					action="#{baseFunctionsManager.registerImage(location)}"
+					reRender="imageList">
+
+					<rich:componentControl for="registerPanel" operation="hide"
+						event="onclick" />
+				</a4j:commandButton>
+			</rich:panel>
+		</h:form>
+
+	</rich:modalPanel>
+</ui:composition>
+
+</html>

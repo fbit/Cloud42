@@ -1,0 +1,251 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Aug 06 12:28:34 CEST 2008
+  Author:  fbitzer
+  Purpose: Synchronous BPEL Process to demonstrate integration of BPEL and Cloud42.
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="Cloud42BPELSample"
+         targetNamespace="http://xmlns.just-works.de/Cloud42BPELSample"
+         xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:client="http://xmlns.just-works.de/Cloud42BPELSample"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ns1="http://webservice.cloud42.jw.de"
+         xmlns:ehdr="http://www.oracle.com/XSL/Transform/java/oracle.tip.esb.server.headers.ESBHeaderFunctions"
+         xmlns:ns3="http://ec2.amazonws.xerox.com/xsd"
+         xmlns:ns2="http://domain.core.cloud42.jw.de/xsd"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:orcl="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc">
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <partnerLinks>
+    <partnerLink name="client" partnerLinkType="client:Cloud42BPELSample"
+                 myRole="Cloud42BPELSampleProvider"/>
+    <partnerLink myRole="Cloud42BaseServicePortType_Role"
+                 name="Cloud42BaseServicePL"
+                 partnerRole="Cloud42BaseServicePortType_Role"
+                 partnerLinkType="ns1:Cloud42BaseServicePortType_PL"/>
+  </partnerLinks>
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable"
+              messageType="client:Cloud42BPELSampleRequestMessage"/>
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable"
+              messageType="client:Cloud42BPELSampleResponseMessage"/>
+    <!-- Input for listImages -->
+    <variable name="listImagesInput" messageType="ns1:listImagesRequest"/>
+    <!-- Output of listImages -->
+    <variable name="listImagesOutput" messageType="ns1:listImagesResponse"/>
+    <!-- Input for runInstance -->
+    <variable name="runInstanceInput" messageType="ns1:runInstanceRequest"/>
+    <!-- Output of runInstance -->
+    <variable name="runInstanceOutput" messageType="ns1:runInstanceResponse"/>
+    <!-- the imageId of the AMI with the specified image location -->
+    <variable name="imageId" type="xsd:string"/>
+    <!-- Input for listInstances -->
+    <variable name="listInstancesInput" messageType="ns1:listInstancesRequest"/>
+    <!-- Output of listInstances -->
+    <variable name="listInstancesOutput"
+              messageType="ns1:listInstancesResponse"/>
+  </variables>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+    <!-- Receive input from requestor. (Note: This maps to operation defined in Cloud42BPELSample.wsdl) -->
+    <receive name="receiveInput" partnerLink="client"
+             portType="client:Cloud42BPELSample" operation="process"
+             variable="inputVariable" createInstance="yes"/>
+    <!-- Generate reply to synchronous request -->
+    <!-- set the input for listImages in oder to find the imageId -->
+    <assign name="assignInput">
+      <copy>
+        <from variable="inputVariable" part="payload"
+              query="/client:Cloud42BPELSampleProcessRequest/client:userId"/>
+        <to variable="listImagesInput" part="parameters"
+            query="/ns1:listImages/ns1:credentials/ns2:userID"/>
+      </copy>
+      <copy>
+        <from variable="inputVariable" part="payload"
+              query="/client:Cloud42BPELSampleProcessRequest/client:awsKey"/>
+        <to variable="listImagesInput" part="parameters"
+            query="/ns1:listImages/ns1:credentials/ns2:awsAccessKeyId"/>
+      </copy>
+      <copy>
+        <from variable="inputVariable" part="payload"
+              query="/client:Cloud42BPELSampleProcessRequest/client:secretKey"/>
+        <to variable="listImagesInput" part="parameters"
+            query="/ns1:listImages/ns1:credentials/ns2:secretAccessKey"/>
+      </copy>
+      <copy>
+        <from expression="true()"/>
+        <to variable="listImagesInput" part="parameters"
+            query="/ns1:listImages/ns1:all"/>
+      </copy>
+      <copy>
+        <from expression="1"/>
+        <to variable="listImagesInput" part="parameters"
+            query="/ns1:listImages/ns1:credentials/ns2:id"/>
+      </copy>
+    </assign>
+    <!-- invoke listImages -->
+    <invoke name="invokeListImages" partnerLink="Cloud42BaseServicePL"
+            portType="ns1:Cloud42BaseServicePortType" operation="listImages"
+            inputVariable="listImagesInput" outputVariable="listImagesOutput"/>
+    <!-- assign the imageId to a global variable (assume that it was found) -->
+    <assign name="assignImageId">
+      <copy>
+        <from variable="listImagesOutput" part="parameters"
+              query="/ns1:listImagesResponse/ns1:return[ns3:imageLocation=bpws:getVariableData('inputVariable',  
+     'payload','/client:Cloud42BPELSampleProcessRequest/client:imageLocation')]/ns3:imageId"/>
+        <to variable="imageId"/>
+      </copy>
+    </assign>
+    <!-- now assign input for listing instances in order to check if an instance with the given imageId is running -->
+    <assign name="assignListInstancesInput">
+      <copy>
+        <from expression="1"/>
+        <to variable="listInstancesInput" part="parameters"
+            query="/ns1:listInstances/ns1:credentials/ns2:id"/>
+      </copy>
+      <copy>
+        <from variable="inputVariable" part="payload"
+              query="/client:Cloud42BPELSampleProcessRequest/client:awsKey"/>
+        <to variable="listInstancesInput" part="parameters"
+            query="/ns1:listInstances/ns1:credentials/ns2:awsAccessKeyId"/>
+      </copy>
+      <copy>
+        <from variable="inputVariable" part="payload"
+              query="/client:Cloud42BPELSampleProcessRequest/client:secretKey"/>
+        <to variable="listInstancesInput" part="parameters"
+            query="/ns1:listInstances/ns1:credentials/ns2:secretAccessKey"/>
+      </copy>
+      <copy>
+        <from variable="inputVariable" part="payload"
+              query="/client:Cloud42BPELSampleProcessRequest/client:userId"/>
+        <to variable="listInstancesInput" part="parameters"
+            query="/ns1:listInstances/ns1:credentials/ns2:userID"/>
+      </copy>
+    </assign>
+    <!-- invoke listInstances -->
+    <invoke name="invokeListInstances" partnerLink="Cloud42BaseServicePL"
+            portType="ns1:Cloud42BaseServicePortType" operation="listInstances"
+            inputVariable="listInstancesInput"
+            outputVariable="listInstancesOutput"/>
+    <!-- check if there is a instance with given imageId and state=running -->
+    <switch name="switchIsRunning">
+      <case condition="count(bpws:getVariableData('listInstancesOutput','parameters','/ns1:listInstancesResponse/ns1:return[ns2:imageId=bpws:getVariableData(&quot;imageId&quot;) and ns2:running = &quot;true&quot;]')) = 0">
+        <!-- No, there isn't, so lets start an instance -->
+        <sequence name="Sequence_1">
+          <!-- assign input for runInstance -->
+          <assign name="assignRunInstanceInput">
+            <copy>
+              <from variable="inputVariable" part="payload"
+                    query="/client:Cloud42BPELSampleProcessRequest/client:userId"/>
+              <to variable="runInstanceInput" part="parameters"
+                  query="/ns1:runInstance/ns1:credentials/ns2:userID"/>
+            </copy>
+            <copy>
+              <from variable="inputVariable" part="payload"
+                    query="/client:Cloud42BPELSampleProcessRequest/client:awsKey"/>
+              <to variable="runInstanceInput" part="parameters"
+                  query="/ns1:runInstance/ns1:credentials/ns2:awsAccessKeyId"/>
+            </copy>
+            <copy>
+              <from variable="inputVariable" part="payload"
+                    query="/client:Cloud42BPELSampleProcessRequest/client:secretKey"/>
+              <to variable="runInstanceInput" part="parameters"
+                  query="/ns1:runInstance/ns1:credentials/ns2:secretAccessKey"/>
+            </copy>
+            <copy>
+              <from expression="1"/>
+              <to variable="runInstanceInput" part="parameters"
+                  query="/ns1:runInstance/ns1:credentials/ns2:id"/>
+            </copy>
+            <copy>
+              <from expression="'default'"/>
+              <to variable="runInstanceInput" part="parameters"
+                  query="/ns1:runInstance/ns1:groups"/>
+            </copy>
+            <copy>
+              <from variable="inputVariable" part="payload"
+                    query="/client:Cloud42BPELSampleProcessRequest/client:keypair"/>
+              <to variable="runInstanceInput" part="parameters"
+                  query="/ns1:runInstance/ns1:keyName"/>
+            </copy>
+            <copy>
+              <from expression="1"/>
+              <to variable="runInstanceInput" part="parameters"
+                  query="/ns1:runInstance/ns1:count"/>
+            </copy>
+            <copy>
+              <from expression="'m1.small'"/>
+              <to variable="runInstanceInput" part="parameters"
+                  query="/ns1:runInstance/ns1:instanceType"/>
+            </copy>
+            <copy>
+              <from variable="imageId"/>
+              <to variable="runInstanceInput" part="parameters"
+                  query="/ns1:runInstance/ns1:imageId"/>
+            </copy>
+          </assign>
+          <!-- and invoke runInstance -->
+          <invoke name="invokeRunInstance" partnerLink="Cloud42BaseServicePL"
+                  portType="ns1:Cloud42BaseServicePortType"
+                  operation="runInstance" inputVariable="runInstanceInput"
+                  outputVariable="runInstanceOutput"/>
+          <!-- copy the instanceId returned by runInstance to the output variable -->
+          <assign name="assignInstanceId">
+            <copy>
+              <from variable="runInstanceOutput" part="parameters"
+                    query="/ns1:runInstanceResponse/ns1:return[1]/ns2:instanceId"/>
+              <to variable="outputVariable" part="payload"
+                  query="/client:Cloud42BPELSampleProcessResponse/client:result"/>
+            </copy>
+          </assign>
+        </sequence>
+      </case>
+      <otherwise>
+        <!-- there was already at least one instance of the given AMI running -->
+        <!-- so we have to copy its instanceId to the output variable -->
+        <assign name="assignUsedInstanceId">
+          <copy>
+            <from variable="listInstancesOutput" part="parameters"
+                  query="/ns1:listInstancesResponse/ns1:return[ns2:imageId=bpws:getVariableData('imageId') and ns2:running = 'true'][1]/ns2:instanceId"/>
+            <to variable="outputVariable" part="payload"
+                query="/client:Cloud42BPELSampleProcessResponse/client:result"/>
+          </copy>
+        </assign>
+      </otherwise>
+    </switch>
+    <!-- return response to client -->
+    <reply name="replyOutput" partnerLink="client"
+           portType="client:Cloud42BPELSample" operation="process"
+           variable="outputVariable"/>
+  </sequence>
+</process>

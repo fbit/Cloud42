@@ -1,0 +1,46 @@
+<?xml version="1.0"?><project>
+  <parent>
+    <artifactId>core</artifactId>
+    <groupId>de.jw.cloud42.core</groupId>
+    <version>1.2.0</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>de.jw.cloud42.core</groupId>
+  <artifactId>endpoint</artifactId>
+  <name>Cloud42 Core - Endpoint</name>
+  <version>1.2.0</version>
+ <!-- <build>
+  <plugins>
+  <plugin>
+     <artifactId>maven-assembly-plugin</artifactId>
+     <configuration>
+     	<descriptorRefs>
+        	<descriptorRef>jar-with-dependencies</descriptorRef>
+		</descriptorRefs>
+		<archive>
+          <manifest>
+            <mainClass>de.jw.cloud42.core.endpoint.App</mainClass>
+            <packageName>de.jw.cloud42.core.endpoint</packageName>
+          </manifest>
+        </archive>
+     </configuration>
+     <executions>
+     	<execution>
+        	<id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+            	<goal>attached</goal>
+            </goals>
+        </execution>
+     </executions>
+  </plugin>
+</plugins>
+  </build>-->
+  <dependencies>
+    <dependency>
+          <groupId>de.jw.cloud42.core</groupId>
+          <artifactId>eventing</artifactId>
+          <version>1.2.0</version>
+       </dependency>
+  </dependencies>
+</project>

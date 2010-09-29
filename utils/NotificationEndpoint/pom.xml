@@ -1,0 +1,27 @@
+<?xml version="1.0"?><project>
+  <modelVersion>4.0.0</modelVersion>
+  
+  <parent>
+    <artifactId>app</artifactId>
+    <groupId>de.jw.cloud42.</groupId>
+    <version>1.2.0</version>
+  </parent>
+  
+  <groupId>de.jw.cloud42.test</groupId>
+  <artifactId>notificationEndpoint</artifactId>
+  <name>NotificationEndpoint</name>
+  <version>1.0</version>
+  <build>
+  <plugins>
+  <plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-compiler-plugin</artifactId>
+  <configuration>
+  <source>1.5</source>
+  <target>1.5</target>
+  </configuration>
+</plugin>
+</plugins>
+</build>
+
+</project>

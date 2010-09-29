@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+
+<ui:composition>
+	<h:form>
+		<a4j:status onstart="Richfaces.showModalPanel('progressPanel')" 
+     		onstop="Richfaces.hideModalPanel('progressPanel')"></a4j:status>
+	
+
+		<rich:panel rendered="#{userManager.user.credentials!=null}">
+			<f:facet name="header">
+				<h:outputText value="#{messages.main_listOfGroups}" />
+			</f:facet>
+
+			<a4j:region>
+
+
+				<rich:toolBar height="21" itemSeparator="line">
+					<rich:toolBarGroup>
+						<a4j:commandButton image="../images/arrow_refresh.png"
+							action="#{baseFunctionsManager.resetGroupList}"
+							id="refresh_groupList" reRender="groupTree,progressPanel">
+
+							<rich:componentControl for="progressPanel" operation="show"
+								event="onclick" />
+
+						</a4j:commandButton>
+						<h:outputLabel value="#{messages.button_refresh}"
+							for="refresh_groupList" />
+					</rich:toolBarGroup>
+
+					<rich:toolBarGroup>
+						<a4j:commandButton image="../images/add.png" id="add_group"
+							reRender="gdescription,gname">
+
+							<!-- reset values -->
+							<a4j:actionparam name="gn" assignTo="#{groupname}" value="" />
+							<a4j:actionparam name="gd" assignTo="#{groupdescription}"
+								value="" />
+
+							<rich:componentControl for="groupPanel" operation="show"
+								event="onclick" disableDefault="true" />
+
+
+						</a4j:commandButton>
+						<h:outputLabel value="#{messages.button_addGroup}" for="add_group" />
+					</rich:toolBarGroup>
+				</rich:toolBar>
+
+				<rich:tree id="groupTree" switchType="client"
+					nodeSelectListener="#{groupTreeBean.processSelection}"
+					value="#{groupTreeBean.treeNode}" var="item"
+					icon="../images/group.png" iconLeaf="../images/arrow_right.png">
+
+					<rich:treeNode id="tn">
+
+						<h:outputText value="#{item}" />
+
+
+						<!-- Context menue for actions on a group or permission -->
+						<rich:contextMenu attached="true" event="ondblclick"
+							showDelay="350">
+
+
+							<rich:menuItem submitMode="ajax"
+								value="#{messages.main_removeGroup} '#{item.toString().substring(0, item.toString().indexOf('(') - 1)}'"
+								rendered="#{item.toString().indexOf('owned by')>= 0}"
+								action="#{baseFunctionsManager.deleteGroup(item.toString().substring(0, item.toString().indexOf('(') - 1))}"
+								reRender="groupTree">
+							</rich:menuItem>
+
+							<rich:menuSeparator
+								rendered="#{item.toString().indexOf('owned by')>= 0}" />
+
+							<rich:menuItem submitMode="ajax" value="Add permission..."
+								id="addp" reRender="groupName,sourcePanel"
+								action="#{baseFunctionsManager.createNewPermission}"
+								rendered="#{item.toString().indexOf('(no permissions set') == -1}">
+
+								<rich:componentControl for="permissionPanel" operation="show"
+									event="onclick" />
+							</rich:menuItem>
+
+							<rich:menuItem id="menudel" submitMode="ajax"
+								value="#{messages.main_removePermission} '#{item}'"
+								rendered="#{item.toString().indexOf('port')>= 0}"
+								action="#{baseFunctionsManager.removePermission}"
+								reRender="groupTree">
+							</rich:menuItem>
+						</rich:contextMenu>
+
+					</rich:treeNode>
+				</rich:tree>
+
+
+
+				<br />
+				<br />
+				<h:outputText style="font-size:10px"
+					value="#{messages.main_selectTreeNode}" />
+
+
+
+			</a4j:region>
+		</rich:panel>
+
+	</h:form>
+</ui:composition>
+</html>

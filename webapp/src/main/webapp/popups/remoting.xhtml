@@ -1,0 +1,126 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+
+<ui:composition>
+	<rich:modalPanel id="remoting" autosized="true">
+		<f:facet name="header">
+			<h:panelGroup>
+				<h:outputText value="#{messages.main_remotingPanelCaption}"></h:outputText>
+			</h:panelGroup>
+		</f:facet>
+		<f:facet name="controls">
+			<h:panelGroup>
+				<h:graphicImage value="/images/close.png" style="cursor:pointer"
+					id="hidelinkR" />
+				<rich:componentControl for="remoting" attachTo="hidelinkR"
+					operation="hide" event="onclick" />
+			</h:panelGroup>
+		</f:facet>
+
+		<h:form id="remotingForm">
+
+			<h:inputHidden value="#{dnsName}" id="dnsNameR" />
+			<h:inputHidden value="#{keyName}" id="keyNameR" />
+
+			<rich:panel bodyClass="rich-laguna-panel-no-header lightBackground">
+
+				<h:outputText value="#{messages.main_remotingCommand}"
+					style="font-weight: bold" />
+
+				<rich:separator height="2" lineType="dashed" />
+
+				<br />
+
+				<h:outputText value="#{messages.main_remotingRemark}" />
+				<h:inputText id="command" value="#{remotingManager.command}"
+					size="100" />
+
+
+				<br />
+				<br />
+				<h:selectBooleanCheckbox id="useBatch"
+					value="#{remotingManager.useBatch}" />
+				<h:outputText value="#{messages.main_useBatch}" />
+				<rich:fileUpload
+					fileUploadListener="#{remotingManager.fileUploadListener}"
+					maxFilesQuantity="1" id="uploadBatchFile" immediateUpload="true"
+					listHeight="60px">
+					<f:facet name="progress">
+						<rich:progressBar/>
+					</f:facet>
+
+					<!--  this is required to enable the Add button again after clearance -->
+					<a4j:support event="onclear" reRender="uploadBatchFile" />
+				</rich:fileUpload>
+
+				
+
+				<br />
+				
+
+
+				<a4j:commandButton value="#{messages.main_executeCommand}"
+					action="#{remotingManager.execute(dnsName,keyName)}"
+					reRender="stdOut, stdErr, exception, exitCode, progressPanel, uploadBatchFile">
+
+					<rich:componentControl for="progressPanel" operation="show"
+						event="onclick" />
+
+				</a4j:commandButton>
+
+
+				<br />
+				<br />
+				
+
+
+				<!-- Result -->
+				<h:outputText value="#{messages.main_remotingResultCaption}"
+					style="font-weight: bold" />
+
+				<rich:separator height="2" lineType="dashed" />
+
+				<br />
+				<a4j:region id="remotingResultRegion">
+					<h:outputText value="#{messages.main_remotingResultCode}" />
+					<b><h:outputText id="exitCode" 
+						value="#{remotingManager.result.exitCode}" /></b>
+
+					<br />
+					<br />
+				
+					<h:outputText value="#{messages.main_remotingResultStdOut}" />
+					<br />
+					<h:inputTextarea id="stdOut"
+						value="#{remotingManager.result.stdOut}" cols="75" rows="2" />
+
+					<br />
+					<br />
+
+					<h:outputText value="#{messages.main_remotingResultStdErr}" />
+					<br />
+					<h:inputTextarea id="stdErr"
+						value="#{remotingManager.result.stdErr}" cols="75" rows="2" />
+
+					<br />
+					<br />
+
+					<h:outputText value="#{messages.main_remotingResultException}" />
+					<br />
+					<h:inputTextarea id="exception"
+						value="#{remotingManager.result.exceptionMessage}" cols="75"
+						rows="1" />
+
+				</a4j:region>
+
+			</rich:panel>
+		</h:form>
+	</rich:modalPanel>
+
+</ui:composition>
+</html>

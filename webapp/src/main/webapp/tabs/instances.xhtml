@@ -1,0 +1,568 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+
+<ui:composition>
+	<!--<a4j:status onstart="Richfaces.showModalPanel('progressPanel')" 
+     		onstop="Richfaces.hideModalPanel('progressPanel')"></a4j:status>-->
+
+	<!-- List of available AMIs -->
+	<rich:simpleTogglePanel switchType="client"
+		rendered="#{userManager.user.credentials!=null}">
+		<f:facet name="header">
+			<h:outputText value="#{messages.main_listOfImages}" />
+		</f:facet>
+
+
+		<a4j:region id="listRegion">
+
+			<rich:toolBar height="21" itemSeparator="line">
+				<rich:toolBarGroup>
+					<a4j:commandButton image="../images/arrow_refresh.png"
+						reRender="imageList, progressPanel"
+						action="#{baseFunctionsManager.resetImageList}"
+						id="refresh_imageList">
+
+						<rich:componentControl for="progressPanel" operation="show"
+							event="onclick" />
+
+					</a4j:commandButton>
+					<h:outputLabel value="#{messages.button_refresh}"
+						for="refresh_imageList" />
+				</rich:toolBarGroup>
+
+				<rich:toolBarGroup>
+					<a4j:commandButton image="../images/add.png" id="add_image"
+						reRender="location">
+
+
+						<!-- reset location of new image -->
+						<a4j:actionparam name="loc" assignTo="#{location}" value="" />
+
+						<rich:componentControl for="registerPanel" operation="show"
+							event="onclick" disableDefault="true" />
+
+
+					</a4j:commandButton>
+					<h:outputLabel value="#{messages.button_registerImage}"
+						for="add_image" />
+				</rich:toolBarGroup>
+			</rich:toolBar>
+
+
+
+
+
+			<rich:dataTable id="imageList" rows="6" var="image"
+				style="width:100%" value="#{baseFunctionsManager.images}"
+				reRender="imageListScroller"
+				onRowMouseOver="this.style.backgroundColor='#F8F8F8'"
+				onRowMouseOut="this.style.backgroundColor='#{a4jSkin.tableBackgroundColor}'">
+
+				<rich:column sortBy="#{image.imageId}" filterBy="#{image.imageId}"
+					filterEvent="onkeyup">
+					<f:facet name="header">
+	                                #{messages.main_AMIId}
+	                            </f:facet>
+					<h:outputText value="#{image.imageId}" />
+				</rich:column>
+
+				<rich:column sortBy="#{image.imageOwnerId}"
+					filterBy="#{image.imageOwnerId}" filterEvent="onkeyup">
+					<f:facet name="header">
+	                                #{messages.main_table_ownerId}
+	                            </f:facet>
+					<h:outputText value="#{image.imageOwnerId}" />
+				</rich:column>
+
+				<rich:column width="550px" sortBy="#{image.imageLocation}"
+					filterBy="#{image.imageLocation}" filterEvent="onkeyup">
+					<f:facet name="header">
+	                                #{messages.main_imageLocation}
+	                            </f:facet>
+					<h:outputText value="#{image.imageLocation}" />
+				</rich:column>
+
+				<rich:column width="80px" sortBy="#{image.imageState}"
+					filterBy="#{image.imageState}" filterEvent="onkeyup">
+					<f:facet name="header">
+	                                #{messages.main_table_state}
+	                            </f:facet>
+					<h:outputText value="#{image.imageState}" />
+				</rich:column>
+
+
+
+				<rich:column>
+					<h:panelGrid columns="2">
+						<a4j:commandButton
+							reRender="imageId, imageLocation,type,keypair,data,groups,upload,kernelId,ramdiskId,zone"
+							image="../images/run.png" id="run"
+							action="#{baseFunctionsManager.createNewConfiguration(image.imageId, image.imageLocation)}">
+
+
+							<rich:componentControl for="instanceConfigurator"
+								operation="show" event="onclick" disableDefault="true" />
+
+							<rich:toolTip followMouse="true" showDelay="200">
+								<span style="white-space: nowrap"> <b>#{messages.main_tooltip_runInstance}</b>
+								#{image.imageId} </span>
+							</rich:toolTip>
+
+						</a4j:commandButton>
+
+						<a4j:commandButton reRender="imageList"
+							image="../images/delete.png" id="deregister"
+							action="#{baseFunctionsManager.deregisterImage(image)}">
+
+							<rich:toolTip followMouse="true" showDelay="200">
+								<span style="white-space: nowrap"> <b>#{messages.main_tooltip_deregister}</b>
+								#{image.imageId} </span>
+							</rich:toolTip>
+						</a4j:commandButton>
+
+					</h:panelGrid>
+
+				</rich:column>
+			</rich:dataTable>
+
+			<rich:datascroller align="left" for="imageList"
+				id="imageListScroller" />
+
+			<rich:spacer height="20" />
+
+		</a4j:region>
+
+
+	</rich:simpleTogglePanel>
+
+	<br />
+
+	<!-- </h:form>
+
+
+<h:form>-->
+
+	<!-- Collapsible Panel for current instances -->
+	<rich:simpleTogglePanel switchType="client"
+		rendered="#{userManager.user.credentials!=null}">
+		<f:facet name="header">
+			<h:outputText value="#{messages.main_listOfInstances}" />
+		</f:facet>
+
+		<a4j:outputPanel>
+			<a4j:region rendered="#{userManager.user.credentials!=null}">
+
+
+				<!-- Context Menu for actions on instance-->
+				<rich:contextMenu attached="true" id="menu" submitMode="ajax">
+
+
+
+					<rich:menuItem id="menuReboot"
+						action="#{baseFunctionsManager.rebootInstance(instanceId)}"
+						reRender="instanceList">
+
+						<!-- the following line is neccessary to pass the f:param as parameter to the backing bean -->
+						<a4j:actionparam name="iid1" assignTo="#{instanceId}"
+							value="{instance_id}" />
+						<b>#{messages.main_command_reboot}</b> {instance_id}
+						</rich:menuItem>
+
+
+					<rich:menuItem id="menuTerminate"
+						action="#{baseFunctionsManager.stopInstance(instanceId)}"
+						reRender="instanceList">
+						<!-- the following line is neccessary to pass the f:param as parameter to the backing bean -->
+						<a4j:actionparam name="iid" assignTo="#{instanceId}"
+							value="{instance_id}" />
+						<b>#{messages.main_command_terminate}</b> {instance_id}
+						</rich:menuItem>
+
+					<rich:menuSeparator />
+
+
+					<rich:menuItem id="menuRelaunch"
+						action="#{baseFunctionsManager.runAnotherInstance(instanceId)}"
+						reRender="instanceList, imageId, kernelId, ramdiskId, zone, imageLocation,type,keypair,data,groups,upload">
+						<!-- the following line is neccessary to pass the f:param as parameter to the backing bean -->
+						<a4j:actionparam name="iid" assignTo="#{instanceId}"
+							value="{instance_id}" />
+
+						<b>#{messages.main_command_relaunch}</b> {ami_id}
+						
+						
+						<rich:componentControl for="instanceConfigurator" operation="show"
+							event="onclick" disableDefault="true" />
+
+					</rich:menuItem>
+
+
+
+
+				</rich:contextMenu>
+
+
+				<!-- Toolbar -->
+				<rich:toolBar height="21" itemSeparator="line">
+					<rich:toolBarGroup>
+						<a4j:commandButton image="../images/arrow_refresh.png"
+							reRender="instanceList, progressPanel"
+							action="#{baseFunctionsManager.resetInstanceList}"
+							id="refresh_instanceList">
+
+							<rich:componentControl for="progressPanel" operation="show"
+								event="onclick" />
+
+
+						</a4j:commandButton>
+						<h:outputLabel value="#{messages.button_refresh}"
+							for="refresh_instanceList" />
+					</rich:toolBarGroup>
+
+
+					<rich:toolBarGroup>
+						<a4j:commandButton image="../images/stop.png"
+							reRender="instanceList"
+							action="#{baseFunctionsManager.stopAllInstances}" id="stopall">
+
+						</a4j:commandButton>
+						<h:outputLabel value="#{messages.button_stopAll}" for="stopall" />
+					</rich:toolBarGroup>
+
+				</rich:toolBar>
+
+				<rich:dataTable id="instanceList" rows="10" style="width:100%"
+					var="instance" value="#{baseFunctionsManager.instances}"
+					reRender="instanceListScroller"
+					onRowMouseOver="this.style.backgroundColor='#F8F8F8'"
+					onRowMouseOut="this.style.backgroundColor='#{a4jSkin.tableBackgroundColor}'">
+
+					<!-- user defined names are not used at the moment
+					<rich:column sortBy="#{baseFunctionsManager.getName(instance)}">
+						<f:facet name="header">
+	                                #{messages.main_instanceName}
+	                            </f:facet>
+						<h:outputText value="#{baseFunctionsManager.getName(instance)}" />
+					</rich:column>
+ 					-->
+					<rich:column sortBy="#{instance.instanceId}">
+						<f:facet name="header">
+	                                #{messages.main_instanceId}
+	                            </f:facet>
+
+						<!--  Tooltipp with Instance details -->
+						<a4j:outputPanel layout="block">
+							<rich:toolTip direction="top-right" showDelay="300"
+								layout="block">
+
+								<h:panelGrid columns="2">
+									<f:facet name="header">
+										<h:outputText value="#{messages.main_instanceDetails}" />
+									</f:facet>
+
+									<h:outputText value="#{messages.main_instanceOwner}:" />
+									<h:outputText value="#{instance.owner}" />
+
+									<h:outputText value="#{messages.main_instanceReservationId}:" />
+									<h:outputText value="#{instance.reservationId}" />
+
+
+									<h:outputText value="#{messages.main_kernelId}:" />
+									<h:outputText value="#{instance.kernelId}" />
+
+									<h:outputText value="#{messages.main_ramdiskId}:" />
+									<h:outputText value="#{instance.ramdiskId}" />
+
+
+									<h:outputText value="#{messages.main_instanceGroups}:" />
+									<h:panelGroup>
+										<ul>
+											<ui:repeat value="#{instance.groups}" var="g">
+												<li><h:outputText value="#{g}" /></li>
+											</ui:repeat>
+										</ul>
+									</h:panelGroup>
+
+									<h:outputText value="#{messages.main_instancePrivateDns}:" />
+									<h:outputText value="#{instance.privateDnsName}" />
+
+									<h:outputText value="#{messages.main_instanceType}:" />
+									<h:outputText value="#{instance.instanceType}" />
+
+									<h:outputText value="#{messages.main_instanceZone}:" />
+									<h:outputText value="#{instance.availabilityZone}" />
+
+									<h:outputText value="#{messages.main_instanceReason}:" />
+									<h:outputText value="#{instance.reason}" />
+								</h:panelGrid>
+							</rich:toolTip>
+
+
+							<h:outputText value="#{instance.instanceId} " />
+
+							<h:graphicImage value="../images/comment.png" />
+						</a4j:outputPanel>
+					</rich:column>
+
+					<rich:column sortBy="#{instance.imageId}">
+						<f:facet name="header">
+	                                #{messages.main_AMIId}
+	                            </f:facet>
+						<h:outputText value="#{instance.imageId}" />
+					</rich:column>
+
+					<rich:column sortBy="#{instance.dnsName}">
+						<f:facet name="header">
+	                                #{messages.main_dnsName}
+	                            </f:facet>
+						<h:outputText value="#{instance.dnsName}" />
+					</rich:column>
+
+
+					<rich:column sortBy="#{instance.keyName}">
+						<f:facet name="header">
+	                                #{messages.main_keyName}
+	                            </f:facet>
+						<h:outputText value="#{instance.keyName}" />
+					</rich:column>
+
+					<rich:column sortBy="#{instance.launchTime.time}">
+						<f:facet name="header">
+	                                #{messages.main_launchTime}
+	                            </f:facet>
+						<h:outputText value="#{instance.launchTime.time}">
+							<f:convertDateTime dateStyle="medium" timeStyle="medium"
+								type="both" timeZone="#{baseFunctionsManager.timeZone}" />
+						</h:outputText>
+					</rich:column>
+
+					<rich:column sortBy="#{instance.state}">
+						<f:facet name="header">
+	                                #{messages.main_table_state}
+	                            </f:facet>
+						<h:outputText value="#{instance.state}" />
+					</rich:column>
+
+					<rich:column>
+						<a4j:commandButton image="/images/cog_go.png" id="actions">
+
+
+							<rich:componentControl for="menu" operation="show"
+								event="onclick">
+
+								<f:param value="#{instance.imageId}" name="ami_id" />
+								<f:param value="#{instance.instanceId}" name="instance_id" />
+								<f:param value="#{instance.dnsName}" name="dns_name" />
+								<f:param value="#{instance.keyName}" name="key_name" />
+								<f:param value="#{!(instance.state == 'terminated')}"
+									name="render" />
+
+							</rich:componentControl>
+
+							<rich:toolTip followMouse="true" showDelay="200">
+								<span style="white-space: nowrap"> <b>#{messages.main_tooltip_doAction}</b>
+								#{instance.instanceId} </span>
+							</rich:toolTip>
+
+						</a4j:commandButton>
+
+						<rich:spacer width="6px"></rich:spacer>
+
+						<h:panelGroup id="actionButtons">
+							<!-- action buttons are gathered in a group because they are hidden if bundling is in progress for a
+								particular instance -->
+							<h:panelGroup id="buttonGroup"
+								rendered="#{!bundlingManager.bundlingInProgress(instance.dnsName)}">
+
+
+
+								<a4j:commandButton id="btnFiletransfer"
+									reRender="dnsNameFT, keyNameFT, targetDirArea, uploadFile, uploadURL, uploadFromURL, uploadTargetDir, uploadTargetFilename,downloadFilename,downloadDirArea"
+									action="#{filetransferManager.resetFileDialog}"
+									image="/images/folder_go.png"
+									rendered="#{userManager.privateKeyExists(instance.keyName)}">
+									<!-- the following line is neccessary to pass the f:param as parameter to the backing bean -->
+									<a4j:actionparam name="iid" assignTo="#{instanceId}"
+										value="#{instance.instanceId}" />
+
+									<a4j:actionparam name="dnsn" assignTo="#{dnsName}"
+										value="#{instance.dnsName}" />
+
+									<a4j:actionparam name="keyn" assignTo="#{keyName}"
+										value="#{instance.keyName}" />
+
+									<rich:toolTip followMouse="true" showDelay="200">
+										<span style="white-space: nowrap"> <b>#{messages.main_command_files}</b>
+										#{instance.instanceId} </span>
+									</rich:toolTip>
+
+									<rich:componentControl for="fileTransfer" operation="show"
+										event="onclick" disableDefault="true" />
+
+								</a4j:commandButton>
+
+
+								<a4j:commandButton id="btnFiletransferNoKey"
+									image="/images/folder_go.png"
+									rendered="#{!userManager.privateKeyExists(instance.keyName)}">
+
+
+									<rich:toolTip followMouse="true" showDelay="200">
+										<span style="white-space: nowrap"> <b>#{messages.main_command_files}</b>
+										#{instance.instanceId} </span>
+									</rich:toolTip>
+
+
+									<rich:componentControl for="noKeyPanel" operation="show"
+										event="onclick" disableDefault="true" />
+
+								</a4j:commandButton>
+
+								<!--  remoting button -->
+								<rich:spacer width="6px"></rich:spacer>
+
+								<a4j:commandButton id="btnRemoting"
+									reRender="dnsNameR, keyNameR, command, uploadBatchFile, useBatch, stdOut, exitCode, stdErr, exception"
+									action="#{remotingManager.resetRemotingDialog}"
+									image="/images/remoting.png"
+									rendered="#{userManager.privateKeyExists(instance.keyName)}">
+									<!-- the following line is neccessary to pass the f:param as parameter to the backing bean -->
+									<a4j:actionparam name="iid" assignTo="#{instanceId}"
+										value="#{instance.instanceId}" />
+
+									<a4j:actionparam name="dnsn" assignTo="#{dnsName}"
+										value="#{instance.dnsName}" />
+
+									<a4j:actionparam name="keyn" assignTo="#{keyName}"
+										value="#{instance.keyName}" />
+
+									<rich:toolTip followMouse="true" showDelay="200">
+										<span style="white-space: nowrap"> <b>#{messages.main_command_remoting}</b>
+										#{instance.instanceId} </span>
+									</rich:toolTip>
+
+									<rich:componentControl for="remoting" operation="show"
+										event="onclick" disableDefault="true" />
+
+								</a4j:commandButton>
+
+								<a4j:commandButton id="btnRemotingNoKey"
+									image="/images/remoting.png"
+									rendered="#{!userManager.privateKeyExists(instance.keyName)}">
+
+
+									<rich:toolTip followMouse="true" showDelay="200">
+										<span style="white-space: nowrap"> <b>#{messages.main_command_remoting}</b>
+										#{instance.instanceId} </span>
+									</rich:toolTip>
+
+									<rich:componentControl for="noKeyPanel" operation="show"
+										event="onclick" disableDefault="true" />
+
+								</a4j:commandButton>
+
+
+
+								<!--  bundling button -->
+								<rich:spacer width="6px"></rich:spacer>
+
+								<a4j:commandButton id="btnBundle"
+									reRender="dnsNameB, keyNameB,bucket,imgname,use64Bit,notifyB,topicname,notitext,notiinfo,uploadCertFile,uploadPKFile"
+									action="#{bundlingManager.resetBundlingDialog}"
+									image="/images/server_go.png"
+									rendered="#{userManager.privateKeyExists(instance.keyName)}">
+									<!-- the following line is neccessary to pass the f:param as parameter to the backing bean -->
+									<a4j:actionparam name="iid" assignTo="#{instanceId}"
+										value="#{instance.instanceId}" />
+
+									<a4j:actionparam name="dnsn" assignTo="#{dnsName}"
+										value="#{instance.dnsName}" />
+
+									<a4j:actionparam name="keyn" assignTo="#{keyName}"
+										value="#{instance.keyName}" />
+
+									<rich:toolTip followMouse="true" showDelay="200">
+										<span style="white-space: nowrap"> <b>#{messages.main_command_bundle}</b>
+										#{instance.instanceId} </span>
+									</rich:toolTip>
+
+									<rich:componentControl for="bundling" operation="show"
+										event="onclick" disableDefault="true" />
+
+								</a4j:commandButton>
+
+								<a4j:commandButton id="btnBundlingNoKey"
+									image="/images/server_go.png"
+									rendered="#{!userManager.privateKeyExists(instance.keyName)}">
+
+
+									<rich:toolTip followMouse="true" showDelay="200">
+										<span style="white-space: nowrap"> <b>#{messages.main_command_bundle}</b>
+										#{instance.instanceId} </span>
+									</rich:toolTip>
+
+									<rich:componentControl for="noKeyPanel" operation="show"
+										event="onclick" disableDefault="true" />
+
+								</a4j:commandButton>
+
+								<!-- Get console output button -->
+								<rich:spacer width="12px"></rich:spacer>
+
+								<h:commandLink
+									action="#{baseFunctionsManager.getConsoleOutput(instance.instanceId)}"
+									target="_blank">
+
+									<h:graphicImage id="imgConsole" value="/images/terminal.png"
+										style="border:none" />
+
+									<rich:toolTip for="imgConsole" followMouse="true"
+										showDelay="200">
+										<span style="white-space: nowrap; color: black"> <b>#{messages.main_command_getOutput}</b>
+										#{instance.instanceId} </span>
+									</rich:toolTip>
+
+								</h:commandLink>
+
+
+
+							</h:panelGroup>
+
+							<!-- this group is shown if bundling is in progress -->
+							<h:panelGroup id="bundlingGroup"
+								rendered="#{bundlingManager.bundlingInProgress(instance.dnsName)}">
+								<rich:spacer width="6px"></rich:spacer>
+
+								<h:graphicImage value="/images/bundling.gif" />
+
+								<rich:spacer width="6px"></rich:spacer>
+
+								<h:outputText value="#{messages.main_currentlyBundling}" />
+
+							</h:panelGroup>
+						</h:panelGroup>
+
+					</rich:column>
+
+
+				</rich:dataTable>
+
+				<rich:datascroller align="left" for="instanceList"
+					id="instanceListScroller" />
+
+				<rich:spacer height="20" />
+
+
+			</a4j:region>
+		</a4j:outputPanel>
+
+	</rich:simpleTogglePanel>
+
+</ui:composition>
+</html>

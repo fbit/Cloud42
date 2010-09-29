@@ -1,0 +1,61 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+<ui:composition>
+	<!-- Panel for creating a new SOAPSubscription -->
+	<rich:modalPanel id="subscriptionPanel" width="500" height="155"
+		resizeable="false">
+		<f:facet name="header">
+			<h:panelGroup>
+				<h:outputText
+					value="#{messages.main_createSubscriptionPanelCaption}"></h:outputText>
+			</h:panelGroup>
+		</f:facet>
+		<f:facet name="controls">
+			<h:panelGroup>
+				<h:graphicImage value="/images/close.png" style="cursor:pointer"
+					id="hidelinkS" />
+				<rich:componentControl for="subscriptionPanel" attachTo="hidelinkS"
+					operation="hide" event="onclick" />
+			</h:panelGroup>
+		</f:facet>
+
+
+		<h:form id="subscriptionForm">
+
+			<rich:panel bodyClass="rich-laguna-panel-no-header lightBackground">
+
+				<h:panelGrid id="grid" columns="2">
+
+					<h:outputText value="#{messages.main_subscriptionTopic}" />
+					<h:inputText id="stopic" value="#{topic}" />
+
+
+					<h:outputText value="#{messages.main_subscriptionEndpoint}" />
+					<h:inputText id="sendpoint" value="#{endpoint}" size="52" />
+
+
+				</h:panelGrid>
+
+				<br />
+
+				<a4j:commandButton value="#{messages.main_subscriptionCreate}"
+					action="#{subscriptionManager.subscribe(topic, endpoint)}"
+					reRender="subscriptionList">
+
+					<rich:componentControl for="subscriptionPanel" operation="hide"
+						event="onclick" />
+				</a4j:commandButton>
+
+
+			</rich:panel>
+
+		</h:form>
+
+	</rich:modalPanel>
+</ui:composition>
+</html>

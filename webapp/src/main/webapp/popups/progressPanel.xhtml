@@ -1,0 +1,18 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+
+<ui:composition>
+	<!-- Panel for loading symbol -->
+	<rich:modalPanel id="progressPanel" autosized="true">
+		<center><h:graphicImage value="/images/loading.gif" /> <br />
+		<br />
+		<span style="white-space: nowrap"><h:outputText
+			value="#{messages.progressMessage}" /></span></center>
+	</rich:modalPanel>
+</ui:composition>
+</html>

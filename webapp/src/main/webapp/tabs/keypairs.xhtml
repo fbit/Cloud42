@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+
+<ui:composition>
+	<h:form>
+		<a4j:status onstart="Richfaces.showModalPanel('progressPanel')" 
+     		onstop="Richfaces.hideModalPanel('progressPanel')"></a4j:status>
+	
+
+		<rich:panel rendered="#{userManager.user.credentials!=null}">
+			<f:facet name="header">
+				<h:outputText value="#{messages.main_listOfKeypairs}" />
+			</f:facet>
+
+			<a4j:region>
+
+
+				<rich:toolBar height="21" itemSeparator="line">
+					<rich:toolBarGroup>
+						<a4j:commandButton image="../images/arrow_refresh.png"
+							action="#{baseFunctionsManager.resetKeypairList}"
+							id="refresh_keypairList" reRender="keypairList,progressPanel">
+
+							<rich:componentControl for="progressPanel" operation="show"
+								event="onclick" />
+
+						</a4j:commandButton>
+						<h:outputLabel value="#{messages.button_refresh}"
+							for="refresh_keypairList" />
+					</rich:toolBarGroup>
+
+					<rich:toolBarGroup>
+						<a4j:commandButton image="../images/add.png" id="add_kp"
+							reRender="kname, material">
+
+							<!-- reset values -->
+							<a4j:actionparam name="kn" assignTo="#{keypairname}" value="" />
+							<a4j:actionparam name="pk" assignTo="#{privateKey}"
+								value="Please wait a second..." />
+
+
+							<rich:componentControl for="keypairPanel" operation="show"
+								event="onclick" disableDefault="true" />
+
+
+						</a4j:commandButton>
+						<h:outputLabel value="#{messages.button_addKeypair}" for="add_kp" />
+					</rich:toolBarGroup>
+				</rich:toolBar>
+
+				<rich:dataTable id="keypairList" var="pair"
+					value="#{baseFunctionsManager.keypairs}"
+					onRowMouseOver="this.style.backgroundColor='#F8F8F8'"
+					onRowMouseOut="this.style.backgroundColor='#{a4jSkin.tableBackgroundColor}'">
+
+					<rich:column sortBy="#{pair.keyName}">
+						<f:facet name="header">
+	                   #{messages.main_table_keypairName}
+	            </f:facet>
+						<h:outputText value="#{pair.keyName}" />
+					</rich:column>
+
+					<rich:column sortBy="#{pair.keyFingerprint}">
+						<f:facet name="header">
+	                   #{messages.main_table_keypairFingerprint}
+	            </f:facet>
+						<h:outputText value="#{pair.keyFingerprint}" />
+					</rich:column>
+
+
+					<rich:column>
+						<f:facet name="header">
+	                   #{messages.main_table_keypairKeySaved}
+	            </f:facet>
+						<center><h:graphicImage value="../images/accept.png"
+							rendered="#{userManager.privateKeyExists(pair.keyName)}" /> <h:graphicImage
+							value="../images/exclamation.png"
+							rendered="#{!userManager.privateKeyExists(pair.keyName)}" /></center>
+					</rich:column>
+
+					<rich:column>
+						<a4j:commandButton reRender="material,keypairNameHidden"
+							image="../images/key_add.png" id="addPrivateKey">
+
+							<rich:toolTip followMouse="true" showDelay="200">
+								<span style="white-space: nowrap"> <b>#{messages.main_tooltip_addPrivateKey}</b>
+								#{pair.keyName} </span>
+							</rich:toolTip>
+
+							<a4j:actionparam name="kn2" assignTo="#{keypairName}"
+								value="#{pair.keyName}" />
+							<a4j:actionparam name="pk2" assignTo="#{privateKey}"
+								value="Please enter your private key for the keypair '#{pair.keyName}'." />
+
+
+							<rich:componentControl for="keypairMaterialPanel"
+								operation="show" event="onclick" />
+
+						</a4j:commandButton>
+						<rich:spacer width="6px"></rich:spacer>
+						<a4j:commandButton reRender="keypairList"
+							image="../images/key_delete.png" id="deletePrivateKey"
+							action="#{userManager.deletePrivateKey(pair.keyName)}">
+
+							<rich:toolTip followMouse="true" showDelay="200">
+								<span style="white-space: nowrap"> <b>#{messages.main_tooltip_deletePrivateKey}</b>
+								#{pair.keyName} </span>
+							</rich:toolTip>
+						</a4j:commandButton>
+						<rich:spacer width="6px"></rich:spacer>
+						<a4j:commandButton reRender="keypairList"
+							image="../images/delete.png" id="delKeypair"
+							action="#{baseFunctionsManager.deleteKeypair(pair)}">
+
+							<rich:toolTip followMouse="true" showDelay="200">
+								<span style="white-space: nowrap"> <b>#{messages.main_tooltip_deleteKeypair}</b>
+								#{pair.keyName} </span>
+							</rich:toolTip>
+						</a4j:commandButton>
+					</rich:column>
+
+
+
+				</rich:dataTable>
+
+				<!--
+			<rich:datascroller align="left" for="keypairList" id="keypairListScroller" reRender="material" />
+			-->
+				<rich:spacer height="20" />
+
+			</a4j:region>
+
+		</rich:panel>
+
+
+	</h:form>
+
+</ui:composition>
+</html>

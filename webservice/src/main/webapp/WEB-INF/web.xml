@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<description>webservice web.xml</description>
+	
+	<!-- Listener for bringing up Cloud42 endpoint -->
+	<listener>
+		<listener-class>
+			de.jw.cloud42.webservice.listener.StartupListener
+		</listener-class>
+	</listener>
+	<!-- include Axis2 Servlet -->
+	<servlet>
+		<display-name>Apache-Axis Servlet</display-name>
+		<servlet-name>AxisServlet</servlet-name>
+		<servlet-class>
+			org.apache.axis2.transport.http.AxisServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AxisServlet</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+</web-app>

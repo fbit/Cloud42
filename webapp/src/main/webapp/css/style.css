@@ -1,0 +1,133 @@
+/*
+Some css informations.
+*/
+
+/* Style of info/error message based on rich:messages */
+.message {
+  padding: 10px;
+  padding-left:35px;
+  height:14px;
+  border: 1px dashed black;
+  color: black;
+  text-align: justify;
+  background-color: #E0F8E0;
+  background-image: url("../images/information.png");
+  background-repeat:no-repeat;
+  background-position:10px 10px;
+  font-size:11px;
+  font-family: Arial,Verdana,sans-serif;
+}
+
+.errorMessage {
+   color:red;
+   font-weight:bold;
+   background-image: url("../images/exclamation.png");
+}
+
+.error {
+	color:red;
+	font-weight:bold;
+}
+
+.cur{
+	cursor: pointer; 
+}
+
+.col1 {
+	width:200px;
+	
+}
+.col2 {
+	width:400px;
+}
+
+
+/* Skinning */
+/*============*/
+
+body {
+	background-color: #F1F1F1;
+}
+
+/* Panel Header */
+.dr-pnl-h, .dr-stglpnl-h {
+	background-color:black;
+	background-image:url("../images/style/panel_header.gif");
+	border-color:black;
+	color:white;
+}
+
+/* Toolbar */
+.dr-toolbar-ext {
+	background-color:#E9F0F6;
+	background-image:url("../images/style/toolbar_bg.jpg");
+}
+/* Toolbar item */
+.rich-toolbar-item {
+	color:black;
+}
+
+/*Panel Background */
+.dr-pnl-b, .dr-stglpnl-b {
+	background-image:url("../images/style/panel_background.png");
+ }
+ 
+/* ModalPanel Header */
+.dr-mpnl-pnl-h {
+	background-color:black;
+	background-image:url("../images/style/panel_header.gif");
+	border-color:black;
+	color:white;
+}
+/* ModalPanel Body */
+/*.dr-mpnl-pnl-b {
+	background-image:url("../images/style/popup_background.png");
+	background-position: bottom;
+	background-repeat: repeat-y;
+}*/
+
+.lightBackground {
+	background-image: url("../images/style/panel_background_light.png");
+}
+/* Navigation */
+.nav {
+	width:100%;
+	background-color: black;
+}
+.nav a {
+	color:white;
+	font-weight:bold;
+	font-family: Arial,Verdana,sans-serif;
+	font-size:11px;
+	text-decoration:none;
+}
+.nav_active {
+	background-image:url("../images/style/active_tab.gif");
+	width:130px;
+	height:20px;
+	text-align: center;
+	padding-top: 4px;
+}
+.nav_inactive {
+	background-image:url("../images/style/nav_tab.gif");
+	width:130px;
+	height:20px;
+	text-align: center;
+	padding-top: 4px;
+}
+.nav_last {
+	background: transparent url("../images/style/nav_all.gif") no-repeat scroll 0 -66px; 
+	width: 5px;
+}
+.nav_first {
+	background:transparent url("../images/style/nav_all.gif") no-repeat scroll 0 0;
+	width: 5px;
+}
+
+.rightCol {
+	width:100%;
+	text-align:right;
+	color:white;
+	font-size:11px;
+	font-family: Arial,Verdana,sans-serif;
+}

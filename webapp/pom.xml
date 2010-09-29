@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>de.jw.cloud42</groupId>
+    <artifactId>webapp</artifactId>
+    <packaging>war</packaging>
+    <version>1.2.0</version>
+    
+    <name>Cloud42 Web Application</name>
+  	<description>This is the web application of Cloud42. It provides an user interface which can be used to manage your Amazon EC2 account by registering new AMI's, controlling instances, creating groups and permissions and much more.</description>
+
+    <parent>
+        <groupId>de.jw.cloud42</groupId>
+        <artifactId>app</artifactId>
+        <version>1.2.0</version>
+    </parent>
+
+
+
+
+     <build>
+        <finalName>Cloud42</finalName>
+        <plugins>
+            <plugin>
+                <!--This plugin allows to run the application using mvn jetty:run -->
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>maven-jetty-plugin</artifactId>
+                <version>${jetty.version}</version>
+                <configuration>
+					<contextPath>/Cloud42</contextPath>
+                    <scanIntervalSeconds>3</scanIntervalSeconds>
+					<webDefaultXml>src/main/resources/webdefault.xml</webDefaultXml>
+					<systemProperties>
+						<systemProperty>
+							<name>org.mortbay.jetty.Request.maxFormContentSize</name>
+							<value>500000</value>
+						</systemProperty>
+						</systemProperties>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- Project dependencies -->
+    <!-- JSF & Co. -->
+    <dependencies>
+	
+        <dependency>
+            <groupId>org.apache.myfaces.core</groupId>
+            <artifactId>myfaces-api</artifactId>
+            <version>1.2.4</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.myfaces.core</groupId>
+            <artifactId>myfaces-impl</artifactId>
+            <version>1.2.4</version>
+            <scope>compile</scope>
+        </dependency>
+		
+		<!--servlet API is required to implement file download servlet -->
+	<dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>servlet-api</artifactId>
+        <version>2.4</version>
+    </dependency>
+<!--
+        <dependency>
+            <groupId>org.apache.myfaces.tomahawk</groupId>
+            <artifactId>tomahawk</artifactId>
+            <version>1.1.6</version>
+            <scope>runtime</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>jstl</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+-->
+		<!--
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+            <scope>runtime</scope>
+        </dependency>-->
+<!--
+     	<dependency>
+		    <groupId>com.sun.facelets</groupId>
+		    <artifactId>jsf-facelets</artifactId>
+		    <version>1.1.11</version>
+	    </dependency>-->
+
+
+        <!-- SEAM -->
+         <dependency>
+            <groupId>org.jboss.seam</groupId>
+            <artifactId>jboss-seam</artifactId>
+			<version>${seam.version}</version>
+ 		</dependency>
+ 		<dependency>
+ 	        <groupId>org.jboss.seam</groupId>
+	        <artifactId>jboss-seam-debug</artifactId>
+    	    <version>${seam.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.seam</groupId>
+            <artifactId>jboss-seam-ui</artifactId>
+            <version>${seam.version}</version>
+        </dependency>
+
+
+		<dependency>
+	      <groupId>org.jboss.seam</groupId>
+	      <artifactId>jboss-el</artifactId>
+	      <version>2.0.0.GA</version>
+		  <exclusions>
+        	<exclusion>
+	          <groupId>javax.el</groupId>
+	          <artifactId>el-api</artifactId>
+    	    </exclusion>
+    	  </exclusions>
+	   </dependency>
+
+	   <!-- RichFaces -->
+	   <dependency>
+	       <groupId>org.richfaces.ui</groupId>
+           <artifactId>richfaces-ui</artifactId>
+           <version>${richfaces.version}</version>
+		</dependency>
+		<!--
+		<dependency>
+			<groupId>org.richfaces.samples</groupId>
+			<artifactId>laguna</artifactId>
+			<version>3.3.0-SNAPSHOT</version>
+		</dependency>-->
+		
+		
+	   <!--EL must be in scope "provided" because it conflicts with the one from Tomcat/jetty/...-->
+	   <dependency>
+	        <groupId>javax.el</groupId>
+            <artifactId>el-api</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+		</dependency>
+
+
+		<!-- hsql database -->
+		<dependency>
+        	<groupId>hsqldb</groupId>
+        	<artifactId>hsqldb</artifactId>
+    		<version>1.8.0.7</version>
+		</dependency>
+
+
+		<!-- internal dependencies -->
+		<!-- Cloud42 core -->
+        <dependency>
+          <groupId>de.jw.cloud42.core</groupId>
+          <artifactId>service</artifactId>
+          <version>1.2.0</version>
+       </dependency>
+	   
+	   <!--remoting-->
+	   <dependency>
+          <groupId>de.jw.cloud42.core</groupId>
+          <artifactId>remoting</artifactId>
+          <version>1.2.0</version>
+       </dependency>
+	   
+	   <!-- eventing (needed for subscription management -->
+	   <dependency>
+          <groupId>de.jw.cloud42.core</groupId>
+          <artifactId>eventing</artifactId>
+          <version>1.2.0</version>
+       </dependency>
+
+
+    </dependencies>
+</project>

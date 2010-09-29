@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+<ui:composition>
+
+	<br />
+
+	<a4j:region rendered="#{identity.loggedIn}">
+
+
+		<div class="nav">
+		<table style="border: 1px; border-color: black;" cellspacing="1"
+			cellpadding="0">
+			<tr>
+				<td class="nav_first">&nbsp;</td>
+				<td><a4j:outputPanel rendered="#{item=='main'}">
+					<div class="nav_active"><a href="main.seam">#{messages.menu_instances}</a>
+					</div>
+				</a4j:outputPanel> <a4j:outputPanel rendered="#{item!='main'}">
+					<div class="nav_inactive"><a href="main.seam">#{messages.menu_instances}</a>
+					</div>
+				</a4j:outputPanel></td>
+				<td><a4j:outputPanel rendered="#{item=='groups'}">
+					<div class="nav_active"><a href="groups.seam">#{messages.menu_groups}</a>
+					</div>
+				</a4j:outputPanel> <a4j:outputPanel rendered="#{item!='groups'}">
+					<div class="nav_inactive"><a href="groups.seam">#{messages.menu_groups}</a>
+					</div>
+				</a4j:outputPanel></td>
+				<td><a4j:outputPanel rendered="#{item=='keypairs'}">
+					<div class="nav_active"><a href="keypairs.seam">#{messages.menu_keypairs}</a>
+					</div>
+				</a4j:outputPanel> <a4j:outputPanel rendered="#{item!='keypairs'}">
+					<div class="nav_inactive"><a href="keypairs.seam">#{messages.menu_keypairs}</a>
+					</div>
+				</a4j:outputPanel></td>
+				<td><a4j:outputPanel rendered="#{item=='subscriptions'}">
+					<div class="nav_active"><a href="subscriptions.seam">#{messages.menu_subscriptions}</a>
+					</div>
+				</a4j:outputPanel> <a4j:outputPanel rendered="#{item!='subscriptions'}">
+					<div class="nav_inactive"><a href="subscriptions.seam">#{messages.menu_subscriptions}</a>
+					</div>
+				</a4j:outputPanel></td>
+				<td class="nav_last">&nbsp;</td>
+
+				<td class="rightCol"><h:form rendered="#{identity.loggedIn}">
+				
+					<h:outputText value="#{messages.menu_region}"
+						rendered="#{identity.loggedIn}" 
+						style="font-weight:bold;margin-right:5px;"/>
+				
+					
+					<h:selectOneMenu value="#{userManager.user.regionUrl}">
+						<f:selectItems value="#{baseFunctionsManager.regionItems}" />
+					</h:selectOneMenu>
+					
+					<h:commandButton value="#{messages.menu_region_save}"
+						rendered="#{identity.loggedIn}"
+						action="#{userManager.saveRegion()}" >
+						
+						<rich:componentControl for="progressPanel" operation="show"
+							event="onclick" />
+							
+					</h:commandButton>
+					
+				
+					<h:outputText value="#{messages.menu_loggedInAs}"
+						rendered="#{identity.loggedIn}" 
+						style="margin-left:20px;margin-right:5px;"/>
+						
+					<b><h:outputText value="#{identity.username}"
+						rendered="#{identity.loggedIn}" /></b>
+					<h:commandButton value="#{messages.logout}"
+						rendered="#{identity.loggedIn}" action="#{identity.logout}" />
+				</h:form></td>
+			</tr>
+		</table>
+		</div>
+	</a4j:region>
+
+
+
+</ui:composition>
+
+</html>
+

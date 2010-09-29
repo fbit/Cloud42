@@ -1,0 +1,13 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<BPELSuitcase>
+   <BPELProcess id="Cloud42BPELSample" src="Cloud42BPELSample.bpel">
+      <partnerLinkBindings>
+         <partnerLinkBinding name="client">
+            <property name="wsdlLocation">Cloud42BPELSample.wsdl</property>
+         </partnerLinkBinding>
+         <partnerLinkBinding name="Cloud42BaseServicePL">
+            <property name="wsdlLocation">PartnerLink_1.wsdl</property>
+         </partnerLinkBinding>
+      </partnerLinkBindings>
+   </BPELProcess>
+</BPELSuitcase>

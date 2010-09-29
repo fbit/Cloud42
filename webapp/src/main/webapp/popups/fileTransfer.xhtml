@@ -1,0 +1,164 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+
+<ui:composition>
+<!-- Panel for transferring files -->
+<rich:modalPanel id="fileTransfer" autosized="true">
+	<f:facet name="header">
+		<h:panelGroup>
+			<h:outputText value="#{messages.main_fileTransferPanelCaption}"></h:outputText>
+		</h:panelGroup>
+	</f:facet>
+	<f:facet name="controls">
+		<h:panelGroup>
+			<h:graphicImage value="/images/close.png" style="cursor:pointer"
+				id="hidelinkFT" />
+			<rich:componentControl for="fileTransfer" attachTo="hidelinkFT"
+				operation="hide" event="onclick" />
+		</h:panelGroup>
+	</f:facet>
+
+	<h:form id="fileTransferForm">
+
+		<h:inputHidden value="#{dnsName}" id="dnsNameFT" />
+		<h:inputHidden value="#{keyName}" id="keyNameFT" />
+
+		<rich:tabPanel switchType="client">
+			<!-- Upload -->
+			<rich:tab label="#{messages.main_uploadCaption}">
+
+				<h:outputText value="#{messages.main_uploadRemark}" />
+
+				<rich:fileUpload maxFilesQuantity="100" id="uploadFile"
+					immediateUpload="true" listHeight="100px"
+					uploadData="#{filetransferManager.files}" allowFlash="false"
+					clearControlLabel="">
+					<f:facet name="progress">
+						<rich:progressBar/>
+					</f:facet>
+
+					<a4j:support event="onclear"
+						action="#{filetransferManager.clearUpload}" reRender="uploadFile" />
+				</rich:fileUpload>
+
+
+				<br />
+				<rich:panel bodyClass="rich-laguna-panel-no-header">
+					<h:selectBooleanCheckbox id="uploadFromURL"
+						value="#{filetransferManager.uploadFromURL}" />
+					<h:outputText value="#{messages.main_uploadURLRemark}" />
+					<br />
+					<h:inputText id="uploadURL"
+						value="#{filetransferManager.uploadURL}" size="65" />
+
+
+					<br />
+
+					<h:outputText value="#{messages.main_uploadTargetFilename}" />
+					<br />
+					<h:inputText id="uploadTargetFilename"
+						value="#{filetransferManager.targetFilename}" />
+
+					<br />
+				</rich:panel>
+				<br />
+
+				<h:outputText value="#{messages.main_uploadTarget}" />
+				<br />
+				<h:inputText id="uploadTargetDir"
+					value="#{filetransferManager.targetDir}" size="54" />
+
+				<a4j:commandButton value="#{messages.main_listDir}"
+					action="#{filetransferManager.listFolder(dnsName,keyName,false)}"
+					reRender="targetDirArea, progressPanel">
+
+					<rich:componentControl for="progressPanel" operation="show"
+						event="onclick" />
+
+				</a4j:commandButton>
+
+				<br />
+
+				<h:inputTextarea id="targetDirArea"
+					value="#{filetransferManager.targetDirContent}" cols="53" rows="5" />
+
+
+				<br />
+
+				<!--
+			     	   <h:outputText value="#{messages.main_uploadTargetFilename}" />
+				        <br/>
+				        <h:inputText id="uploadTargetFilename" value="#{filetransferManager.targetFilename}" size="60"/>
+			     	   
+			     	    <br/>-->
+
+				<br />
+
+				<a4j:commandButton value="#{messages.main_upload}"
+					action="#{filetransferManager.uploadFile(dnsName,keyName)}"
+					reRender="progressPanel, uploadFile,uploadTargetFilename">
+
+
+					<rich:componentControl for="progressPanel" operation="show"
+						event="onclick" />
+
+
+				</a4j:commandButton>
+
+
+			</rich:tab>
+
+
+			<!-- Download -->
+			<rich:tab label="#{messages.main_downloadCaption}">
+
+
+				<h:outputText value="#{messages.main_downloadSource}" />
+				<br />
+				<h:inputText id="downloadFilename"
+					value="#{filetransferManager.downloadFilename}" size="56" />
+
+				<a4j:commandButton value="#{messages.main_listFiles}"
+					action="#{filetransferManager.listFolder(dnsName,keyName,true)}"
+					reRender="downloadDirArea, progressPanel">
+
+					<rich:componentControl for="progressPanel" operation="show"
+						event="onclick" />
+
+				</a4j:commandButton>
+
+				<br />
+
+				<h:inputTextarea id="downloadDirArea"
+					value="#{filetransferManager.downloadDirContent}" cols="53"
+					rows="9" />
+
+
+
+				<br />
+				<br />
+
+				<h:commandLink
+					action="#{filetransferManager.downloadFile(dnsName,keyName)}"
+					target="_blank">
+
+					<a4j:commandButton value="#{messages.main_download}">
+
+					</a4j:commandButton>
+				</h:commandLink>
+
+			</rich:tab>
+
+		</rich:tabPanel>
+
+
+	</h:form>
+</rich:modalPanel>
+</ui:composition>
+
+</html>

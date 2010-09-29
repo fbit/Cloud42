@@ -1,0 +1,59 @@
+<pages xmlns="http://jboss.com/products/seam/pages"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.0.xsd"
+       login-view-id="/login.xhtml"> 
+
+  
+    <exception class="org.jboss.seam.security.NotLoggedInException">
+        <redirect view-id="/login.xhtml">
+            <message>You must be logged in to perform this action</message>
+        </redirect>
+    </exception>
+
+
+    <exception class="org.jboss.seam.security.AuthorizationException">
+        <end-conversation/>
+        <redirect view-id="/error.xhtml">
+            <message>You do not have the necessary security privileges to perform this action.</message>
+        </redirect>
+    </exception>
+    
+    <exception class="java.lang.Exception">
+        <end-conversation/>
+        <redirect view-id="/error.xhtml">
+            <message>Please try again.</message>
+        </redirect>
+    </exception>
+        
+        
+    <!-- Folder "private" is secured -->
+	<!-- calls to e.g. /private/main.seam result in a redirect to login.xhtml-->
+    <page view-id="/private/*" login-required="true">
+    </page>
+    
+    
+    <page view-id="/login.xhtml">
+    	<!-- redirect after login -->
+    	<navigation from-action="#{identity.login}"> 
+    	
+  			<rule if="#{identity.loggedIn}"> 
+        		<redirect view-id="/private/main.xhtml" />
+    		</rule>
+    	</navigation>
+    
+    </page>
+    
+     <page view-id="/private/main.xhtml">
+    	
+    	
+    	<navigation> 
+  			<rule if-outcome="consoleOutput"> 
+        		<redirect view-id="/private/consoleOutput.xhtml"/>
+        	</rule>
+    	</navigation>
+    
+    </page>
+    
+     
+       
+</pages>

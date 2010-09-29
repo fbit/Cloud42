@@ -1,0 +1,36 @@
+<serviceGroup>
+	<service name="Cloud42BaseService">
+		<description>Cloud42 base function service</description>
+		
+		<!-- for stateful WS, but does not work -->
+		<!-- see http://learnux.blogspot.com/2007/03/axis-soap-and-stateful-session.html and
+		http://www.kiltz.de/Wiki.jsp?page=Ws.bsp.Session -->
+		<!-- <handler name="session" type="java:org.apache.axis.handlers.SimpleSessionHandler"/>
+		
+		<requestFlow>
+			<handler type="session"/>
+		</requestFlow>
+		<responseFlow>
+			<handler type="session"/>
+		</responseFlow>
+		-->
+		<!-- END for stateful WS -->
+		
+		
+		<messageReceivers>
+	        <messageReceiver 
+		            mep="http://www.w3.org/2004/08/wsdl/in-only"
+		    		class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver"/>
+		     <messageReceiver
+		            mep="http://www.w3.org/2004/08/wsdl/in-out"
+		    		class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
+    	</messageReceivers>
+		<parameter name="ServiceClass">
+			de.jw.cloud42.webservice.Cloud42BaseService
+		</parameter>
+		
+		
+		
+		
+	</service>
+</serviceGroup>

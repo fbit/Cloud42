@@ -1,0 +1,33 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+
+<ui:composition template="/template.xhtml">
+
+	<ui:define name="body">
+		<h:form id="form">
+			<center>
+			<br/><br/><br/>
+			<p style="font-weight:bold;color:red;">
+				<b>
+					#{messages.exception}<br/>
+					<h:messages />
+					<br/>
+				</b>
+				<br/>
+				
+				<s:link
+					value="#{messages.login_alreadyLoggedInGo}"
+					view="/private/main.xhtml" />
+			</p>
+			</center>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+
+</html>

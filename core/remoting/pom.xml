@@ -1,0 +1,43 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>de.jw.cloud42.core</groupId>
+  <artifactId>remoting</artifactId>
+  <packaging>jar</packaging>
+  <version>1.2.0</version>
+
+  <name>Cloud42 Core - Remoting</name>
+  <description></description>
+
+  <parent>
+        <groupId>de.jw.cloud42.core</groupId>
+        <artifactId>core</artifactId>
+        <version>1.2.0</version>
+  </parent>
+
+  <dependencies>
+
+	<dependency>
+		<groupId>org.jvnet.hudson</groupId>
+		<artifactId>trilead-ssh2</artifactId>
+		<version>build212-hudson-1</version>
+	</dependency>
+
+	<!-- internal dependencies -->
+	<dependency>
+	 	<groupId>de.jw.cloud42.core</groupId>
+  		<artifactId>service</artifactId>
+	  	<version>1.2.0</version>
+  	</dependency>
+
+	<!-- module configuration in scope test to omit configuration file containing AWS credentials being compiled into the project's WAR file -->
+	<dependency>
+		<groupId>de.jw.cloud42.core</groupId>
+		<artifactId>module-configuration</artifactId>
+		<version>1.2.0</version>
+		<scope>test</scope>
+	</dependency>
+
+
+  </dependencies>
+</project>

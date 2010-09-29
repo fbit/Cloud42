@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>de.jw.cloud42.core</groupId>
+  <artifactId>core</artifactId>
+  <packaging>pom</packaging>
+  <version>1.2.0</version>
+ 
+  <name>Cloud42 Core</name>
+  <description>The core of Cloud42 contains the domain objects and the service layer that is accessed by both the web application and the Web service module.</description>
+
+  <parent>
+        <groupId>de.jw.cloud42</groupId>
+        <artifactId>app</artifactId>
+        <version>1.2.0</version>
+  </parent>
+
+  <modules>
+    <module>service</module>
+    <module>domain</module>
+    <module>endpoint</module>
+	<module>eventing</module>
+	<module>remoting</module>
+	<module>module-hibernate</module>
+	<module>module-configuration</module>
+	
+  </modules>
+
+
+</project>

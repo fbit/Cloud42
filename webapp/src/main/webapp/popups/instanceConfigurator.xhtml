@@ -1,0 +1,147 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+
+<ui:composition>
+	<!-- Panel for configuring a new instance -->
+	<rich:modalPanel id="instanceConfigurator" autosized="true">
+		<f:facet name="header">
+			<h:panelGroup>
+				<h:outputText value="#{messages.main_runInstancePanelCaption}"></h:outputText>
+			</h:panelGroup>
+		</f:facet>
+		<f:facet name="controls">
+			<h:panelGroup>
+				<h:graphicImage value="/images/close.png" style="cursor:pointer"
+					id="hidelink" />
+				<rich:componentControl for="instanceConfigurator"
+					attachTo="hidelink" operation="hide" event="onclick" />
+			</h:panelGroup>
+		</f:facet>
+
+		<h:form id="instanceConfiguratorForm">
+
+			<rich:panel bodyClass="rich-laguna-panel-no-header lightBackground">
+				<h:panelGrid id="grid" columns="2">
+					<!-- Id of used image -->
+					<h:outputLabel value="#{messages.main_AMIId}" for="imageId" />
+					<h:outputText value="#{instanceConfiguration.imageId}" id="imageId"
+						style="font-wight:bold" />
+
+
+					<!-- Location of used image -->
+					<h:outputLabel value="#{messages.main_imageLocation}"
+						for="imageLocation" />
+					<h:outputText value="#{instanceConfiguration.imageLocation}"
+						id="imageLocation" />
+
+
+					<!-- Kernel ID -->
+					<h:outputLabel value="#{messages.main_kernelId}" for="kernelId" />
+					<h:inputText value="#{instanceConfiguration.kernelId}"
+						id="kernelId" />
+
+					<!-- Ramdisc ID -->
+					<h:outputLabel value="#{messages.main_ramdiskId}" for="ramdiskId" />
+					<h:inputText value="#{instanceConfiguration.ramdiskId}"
+						id="ramdiskId" />
+
+
+
+					<!-- EC2 type of instance -->
+					<h:outputLabel value="#{messages.main_instanceType}" for="type" />
+
+					<h:selectOneMenu id="type" value="#{instanceConfiguration.type}">
+						<f:selectItems value="#{baseFunctionsManager.instanceTypeItems}" />
+					</h:selectOneMenu>
+
+
+					<!-- user defined name for instance -->
+					<!-- currently not used -->
+					<!-- <h:outputLabel value="#{messages.main_instanceName}" for="name" />
+		     	   		
+		     	   		<h:inputText value="#{instanceConfiguration.name}" id="name" />-->
+
+
+					<!-- used keypair -->
+					<h:outputLabel value="#{messages.main_keypair}" for="keypair" />
+
+					<h:selectOneMenu id="keypair"
+						value="#{instanceConfiguration.keypairName}">
+						<f:selectItems value="#{baseFunctionsManager.keypairItems}" />
+					</h:selectOneMenu>
+
+
+					<!-- Availability zone -->
+					<h:outputLabel value="#{messages.main_instanceZone}" for="zone" />
+
+					<h:selectOneMenu id="zone"
+						value="#{instanceConfiguration.availabilityZone}">
+						<f:selectItems
+							value="#{baseFunctionsManager.availabilityZoneItems}" />
+					</h:selectOneMenu>
+
+					<!-- groups -->
+
+					<h:outputLabel value="#{messages.main_instanceGroups}" for="groups" />
+
+					<rich:pickList id="groups" listsHeight="100"
+						value="#{instanceConfiguration.groupNames}">
+						<f:selectItems value="#{baseFunctionsManager.groupItems}" />
+					</rich:pickList>
+
+
+
+					<!-- user data -->
+					<h:outputText value="#{messages.main_instanceUserData}" for="data" />
+
+					<h:inputTextarea value="#{instanceConfiguration.userData}"
+						id="data" rows="1" cols="47" />
+
+
+
+					<h:outputText value="#{messages.main_instanceFile}" for="upload" />
+
+
+					<h:panelGroup>
+						<rich:fileUpload
+							fileUploadListener="#{instanceConfiguration.fileUploadListener}"
+							maxFilesQuantity="1" id="upload" immediateUpload="true"
+							listHeight="60px">
+							<f:facet name="progress">
+								<rich:progressBar/>
+							</f:facet>
+							
+							<!--  this is required to enable the Add button again after clearance -->
+							<a4j:support event="onclear" reRender="upload" />
+							
+						</rich:fileUpload>
+
+						<i><h:outputText value="#{messages.main_instanceFileNote}" /></i>
+
+					</h:panelGroup>
+
+
+
+				</h:panelGrid>
+
+				<br />
+				<br />
+
+				<a4j:commandButton value="#{messages.main_runInstance}"
+					action="#{baseFunctionsManager.runInstance}"
+					reRender="instanceList">
+					<rich:componentControl for="instanceConfigurator" operation="hide"
+						event="onclick" />
+				</a4j:commandButton>
+
+			</rich:panel>
+		</h:form>
+
+	</rich:modalPanel>
+</ui:composition>
+</html>

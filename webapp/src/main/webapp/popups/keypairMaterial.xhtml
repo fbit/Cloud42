@@ -1,0 +1,68 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+
+<ui:composition>
+	<!-- Panel for creating a new keypair -->
+	<rich:modalPanel id="keypairMaterialPanel" autosized="true">
+		<f:facet name="header">
+			<h:panelGroup>
+				<h:outputText value="#{messages.main_keypairMaterialPanelCaption}"></h:outputText>
+			</h:panelGroup>
+		</f:facet>
+
+
+
+		<h:form id="keypairMaterialPanelForm">
+
+			<h:inputHidden value="#{keypairName}" id="keypairNameHidden" />
+			<h:inputTextarea value="#{privateKey}" id="material"
+				style="height:420px;width:480px;" />
+
+
+			<rich:panel bodyClass="rich-laguna-panel-no-header lightBackground">
+
+				<h:outputText
+					value="#{messages.main_keypairMaterialPanelDescription}" />
+
+				<br />
+				<br />
+
+				<a4j:commandButton id="saveKey"
+					value="#{messages.main_keypairMaterialPanelSave}"
+					action="#{userManager.savePrivateKey(keypairName, privateKey)}"
+					reRender="material, keypairList, keypairMaterialPanel">
+
+
+				</a4j:commandButton>
+				<rich:componentControl for="keypairMaterialPanel" operation="hide"
+					event="onclick" attachTo="saveKey" />
+
+				<rich:componentControl for="keypairPanel" operation="hide"
+					event="onclick" attachTo="saveKey" />
+
+
+				<a4j:commandButton id="done"
+					value="#{messages.main_keypairMaterialPanelDone}"
+					action="#{baseFunctionsManager.resetPrivateKey}"
+					reRender="material">
+
+
+				</a4j:commandButton>
+				<rich:componentControl for="keypairMaterialPanel" operation="hide"
+					event="onclick" attachTo="done" />
+
+				<rich:componentControl for="keypairPanel" operation="hide"
+					event="onclick" attachTo="done" />
+
+
+			</rich:panel>
+		</h:form>
+
+	</rich:modalPanel>
+</ui:composition>
+</html>

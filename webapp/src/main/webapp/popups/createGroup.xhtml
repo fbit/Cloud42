@@ -1,0 +1,60 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+
+<ui:composition>
+	<!-- Panel for creating a new security group -->
+	<rich:modalPanel id="groupPanel" autosized="true">
+		<f:facet name="header">
+			<h:panelGroup>
+				<h:outputText value="#{messages.main_createGroupPanelCaption}"></h:outputText>
+			</h:panelGroup>
+		</f:facet>
+		<f:facet name="controls">
+			<h:panelGroup>
+				<h:graphicImage value="/images/close.png" style="cursor:pointer"
+					id="hidelink3" />
+				<rich:componentControl for="groupPanel" attachTo="hidelink3"
+					operation="hide" event="onclick" />
+			</h:panelGroup>
+		</f:facet>
+
+
+		<h:form id="groupForm">
+
+			<rich:panel bodyClass="rich-laguna-panel-no-header lightBackground">
+				<h:panelGrid id="grid" columns="2">
+
+					<h:outputText value="#{messages.main_groupPanelGroupName}" />
+					<h:inputText id="gname" value="#{groupname}" />
+
+
+					<h:outputText value="#{messages.main_groupPanelGroupDescription}" />
+					<h:inputText id="gdescription" value="#{groupdescription}"
+						size="40" />
+
+
+				</h:panelGrid>
+
+				<br />
+
+				<a4j:commandButton value="#{messages.main_groupPanelCreate}"
+					action="#{baseFunctionsManager.createGroup(groupname, groupdescription)}"
+					reRender="groupTree">
+
+					<rich:componentControl for="groupPanel" operation="hide"
+						event="onclick" />
+				</a4j:commandButton>
+
+
+			</rich:panel>
+
+		</h:form>
+
+	</rich:modalPanel>
+</ui:composition>
+</html>

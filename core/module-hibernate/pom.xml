@@ -1,0 +1,78 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>de.jw.cloud42.core</groupId>
+  <artifactId>module-hibernate</artifactId>
+  <packaging>jar</packaging>
+  <version>1.2.0</version>
+  <name>Cloud42 Core - Module Hibernate</name>
+
+ 
+  <parent>
+    <groupId>de.jw.cloud42.core</groupId>
+    <artifactId>core</artifactId>
+    <version>1.2.0</version>
+  </parent>
+  
+  <!--<build>
+        <plugins>
+
+  			<plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>hibernate3-maven-plugin</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <configuration>
+                    <hibernate>
+                        <propertyFile>/src/main/conf/hbm2ddl.properties</propertyFile>
+                    </hibernate>-->
+                    <!-- if left out it will execute directly on your database instead -->
+                   <!-- <outputFile>${project.artifactId}_create_tabless.sql</outputFile>
+                </configuration>
+
+             </plugin>
+ 		</plugins>
+    </build>-->
+
+
+
+
+  <dependencies>
+
+  <!-- hibernate -->
+    <dependency>
+    	<groupId>org.hibernate</groupId>
+    	<artifactId>hibernate-annotations</artifactId>
+	    <version>3.3.1.GA</version>
+    </dependency>
+
+	<dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>3.0.0.GA</version>
+    </dependency>
+
+
+    <!-- hsql  -->
+    <dependency>
+        <groupId>hsqldb</groupId>
+        <artifactId>hsqldb</artifactId>
+    	<version>1.8.0.7</version>
+	</dependency>
+
+	<!-- mySQL -->
+	<!--<dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>5.0.5</version>
+	</dependency>-->
+
+
+
+
+
+  </dependencies>
+
+  
+
+</project>

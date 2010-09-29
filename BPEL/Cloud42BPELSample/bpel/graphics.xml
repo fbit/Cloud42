@@ -1,0 +1,21 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<graphics>
+   <outliner outliner_mode="false"/>
+   <partnerlink_locations>
+      <partnerlink name="client" x="0" y="700" side="left"/>
+      <partnerlink name="Cloud42BaseServicePL" x="0" y="636" side="left"/>
+   </partnerlink_locations>
+   <diagram popupeditor="false" fixed_width_swimlanes="true" rounded_partnerlinks="true" centerzoom="true" validateonload="true" confirmbeforedelete="true" SELECTED_PARTNERLINK_COLOR="0,0,153" SWIMLANE_BACKGROUND="240,240,240" SWIMLANE_DIVIDER_BACKGROUND="218,218,218" GRAPH_BACKGROUND="255,255,255" SELECTED_BORDER_BACKGROUND="0,153,153" CONNECTED_PARTNERLINK_COLOR="204,204,255" CONNECTABLE_PARTNERLINK_COLOR="0,0,255" UNCONNECTED_PARTNERLINK_COLOR="192,192,192"/>
+   <graph_layout save_collapse_state="yes" viewport="0,9,1000,693" show_swimlanes="true">
+      <layout_item collapsed="false" xpath="/process/process" type="Process" showhandlers="true"/>
+      <layout_item collapsed="false" xpath="/process/sequence" type="Sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/switch" type="Switch"/>
+      <layout_item collapsed="false" xpath="/process/sequence/switch/case" type="Case"/>
+      <layout_item collapsed="false" xpath="/process/sequence/switch/case/sequence" type="Sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/switch/otherwise" type="Default"/>
+   </graph_layout>
+   <iconize assign="no" invoke="no" receive="no" reply="no" transform="no" terminate="no" wait="no" compensate="no" empty="no" java_embed="no" throw="no" validate="no" dropzones="no" sequences="no" scopes="no" picks="no" whiles="no" flows="no" optimize="no"/>
+   <bookmarks>
+      <bookmark name="Initiate Activity" xpath="/process/sequence/receive" type="1"/>
+   </bookmarks>
+</graphics>

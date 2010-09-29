@@ -1,0 +1,13 @@
+<projectDescription>
+  <name>notificationEndpoint</name>
+  <comment>Cloud42 is a tool to control Amazon EC2. It provides a web based user interface as well as an extensive service layer that is accessible via web service.</comment>
+  <projects/>
+  <buildSpec>
+    <buildCommand>
+      <name>org.eclipse.jdt.core.javabuilder</name>
+    </buildCommand>
+  </buildSpec>
+  <natures>
+    <nature>org.eclipse.jdt.core.javanature</nature>
+  </natures>
+</projectDescription>

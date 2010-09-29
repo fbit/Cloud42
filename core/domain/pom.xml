@@ -1,0 +1,74 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>de.jw.cloud42.core</groupId>
+	<artifactId>domain</artifactId>
+	<packaging>jar</packaging>
+	<version>1.2.0</version>
+
+	<name>Cloud42 Core - Domain Objects</name>
+	<description>
+		This module defines the domain objects of Cloud42.
+	</description>
+
+	<parent>
+		<groupId>de.jw.cloud42.core</groupId>
+		<artifactId>core</artifactId>
+		<version>1.2.0</version>
+	</parent>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>com.google.code.typica</groupId>
+			<artifactId>typica</artifactId>
+			<version>${typica.version}</version>
+		</dependency>
+		<!-- these are the dependencies of typica, since typica itself is not fetched from a public maven repository -->
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.xml</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.xml</groupId>
+			<artifactId>jaxb-impl</artifactId>
+			<version>2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.activation</groupId>
+			<artifactId>activation</artifactId>
+			<version>1.1</version>
+		</dependency>
+
+
+		<!-- internal dependencies -->
+		<!-- module hibernate -->
+		<dependency>
+			<groupId>de.jw.cloud42.core</groupId>
+			<artifactId>module-hibernate</artifactId>
+			<version>1.2.0</version>
+		</dependency>
+		
+		<!-- use commons-configuration for Unit testing -->
+		<dependency>
+			<groupId>commons-configuration</groupId>
+			<artifactId>commons-configuration</artifactId>
+			<version>1.5</version>
+		</dependency>
+
+
+	</dependencies>
+
+</project>

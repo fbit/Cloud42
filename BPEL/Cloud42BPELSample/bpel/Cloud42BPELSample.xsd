@@ -1,0 +1,23 @@
+<schema attributeFormDefault="unqualified"
+	elementFormDefault="qualified"
+	targetNamespace="http://xmlns.just-works.de/Cloud42BPELSample"
+	xmlns="http://www.w3.org/2001/XMLSchema">
+	<element name="Cloud42BPELSampleProcessRequest">
+		<complexType>
+			<sequence>
+				<element name="userId" type="string"/>
+                                <element name="awsKey" type="string"/>
+                                <element name="secretKey" type="string"/>
+                                <element name="imageLocation" type="string"/>
+                                <element name="keypair" type="string"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="Cloud42BPELSampleProcessResponse">
+		<complexType>
+			<sequence>
+				<element name="result" type="string"/>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

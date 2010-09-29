@@ -1,0 +1,1 @@
+java -cp notificationEndpoint-1.0.jar de.jw.cloud42.util.notificationEndpoint.App %1

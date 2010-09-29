@@ -1,0 +1,178 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+
+<ui:composition>
+	<!-- Panel for creating a new security permission on a group -->
+	<rich:modalPanel id="permissionPanel" autosized="true">
+		<f:facet name="header">
+			<h:panelGroup>
+				<h:outputText value="#{messages.main_createPermissionPanelCaption}"></h:outputText>
+			</h:panelGroup>
+		</f:facet>
+		<f:facet name="controls">
+			<h:panelGroup>
+				<h:graphicImage value="/images/close.png" style="cursor:pointer"
+					id="hidelink4" />
+				<rich:componentControl for="permissionPanel" attachTo="hidelink4"
+					operation="hide" event="onclick" />
+			</h:panelGroup>
+		</f:facet>
+
+
+		<h:form id="permissionForm">
+
+			<rich:panel bodyClass="rich-laguna-panel-no-header lightBackground">
+
+				<!-- combobox for selecting source mode -->
+				<a4j:outputPanel>
+					<h:panelGrid columns="2">
+
+						<h:outputText value="#{messages.main_permissionPanelGroupName}" />
+						<h:outputText id="groupName"
+							value="#{permissionConfiguration.editedGroup}"
+							style="font-weight:bold" />
+
+						<h:outputText value="#{messages.main_permissionPanelSource}" />
+						<h:selectOneMenu immediate="true" id="source"
+							value="#{permissionConfiguration.source}">
+							<f:selectItem itemLabel="#{messages.main_SourceCIDR}"
+								itemValue="cidr" />
+							<f:selectItem itemLabel="#{messages.main_SourceUser}"
+								itemValue="usr" />
+
+							<a4j:support event="onchange" reRender="sourcePanel"></a4j:support>
+						</h:selectOneMenu>
+
+					</h:panelGrid>
+
+					<!--  configuration of ip range and port or user-id and group -->
+					<rich:panel id="sourcePanel">
+						<!-- Panel for source=cidr -->
+						<h:panelGroup rendered="#{permissionConfiguration.source=='cidr'}">
+
+							<s:validateAll>
+
+								<h:panelGrid columns="2">
+
+									<h:outputText value="#{messages.main_permissionPanelCIDR}" />
+									<h:panelGroup>
+										<s:decorate id="cidrError">
+											<h:inputText value="#{permissionConfiguration.cidr}"
+												required="true" requiredMessage="#{messages.required}">
+												<a4j:support event="onblur" reRender="cidrError" />
+											</h:inputText>
+											<a4j:outputPanel styleClass="error">
+												<s:message />
+											</a4j:outputPanel>
+										</s:decorate>
+									</h:panelGroup>
+
+									<h:outputText value="#{messages.main_permissionPanelProtocol}" />
+									<h:selectOneMenu id="protocol"
+										value="#{permissionConfiguration.protocol}">
+										<f:selectItem itemLabel="#{messages.main_ProtocolTCP}"
+											itemValue="tcp" />
+										<f:selectItem itemLabel="#{messages.main_ProtocolUDP}"
+											itemValue="udp" />
+										<f:selectItem itemLabel="#{messages.main_ProtocolICMP}"
+											itemValue="icmp" />
+									</h:selectOneMenu>
+
+
+									<h:outputText value="#{messages.main_permissionPanelFromPort}" />
+									<h:panelGroup>
+										<s:decorate id="fromPortError">
+											<h:inputText value="#{permissionConfiguration.fromPort}"
+												required="true" requiredMessage="#{messages.required}">
+												<a4j:support event="onblur" reRender="fromPortError" />
+
+											</h:inputText>
+											<a4j:outputPanel styleClass="error">
+												<s:message />
+											</a4j:outputPanel>
+										</s:decorate>
+
+									</h:panelGroup>
+
+									<h:outputText value="#{messages.main_permissionPanelToPort}" />
+									<h:panelGroup>
+										<s:decorate id="toPortError">
+											<h:inputText value="#{permissionConfiguration.toPort}"
+												required="true" requiredMessage="#{messages.required}">
+												<a4j:support event="onblur" reRender="toPortError" />
+											</h:inputText>
+											<a4j:outputPanel styleClass="error">
+												<s:message />
+											</a4j:outputPanel>
+										</s:decorate>
+									</h:panelGroup>
+
+								</h:panelGrid>
+							</s:validateAll>
+						</h:panelGroup>
+
+						<!-- Panel for source=user and group -->
+						<h:panelGroup rendered="#{permissionConfiguration.source=='usr'}">
+
+							<h:panelGrid columns="2">
+								<h:outputText value="#{messages.main_permissionPanelUserId}" />
+								<h:panelGroup>
+									<s:decorate id="uidError">
+										<h:inputText value="#{permissionConfiguration.user}"
+											required="true" requiredMessage="#{messages.required}">
+											<a4j:support event="onblur" reRender="uidError" />
+										</h:inputText>
+										<a4j:outputPanel styleClass="error">
+											<s:message />
+										</a4j:outputPanel>
+									</s:decorate>
+								</h:panelGroup>
+
+								<h:outputText value="#{messages.main_permissionPanelGroup}" />
+								<h:panelGroup>
+									<s:decorate id="gError">
+										<h:inputText value="#{permissionConfiguration.group}"
+											required="true" requiredMessage="#{messages.required}">
+											<a4j:support event="onblur" reRender="gError" />
+										</h:inputText>
+										<a4j:outputPanel styleClass="error">
+											<s:message />
+										</a4j:outputPanel>
+									</s:decorate>
+								</h:panelGroup>
+
+							</h:panelGrid>
+
+
+						</h:panelGroup>
+
+					</rich:panel>
+
+					<br />
+
+					<a4j:commandButton value="#{messages.main_permissionPanelSave}"
+						action="#{baseFunctionsManager.addPermission}"
+						reRender="groupTree">
+						<rich:componentControl for="permissionPanel" operation="hide"
+							event="onclick" />
+					</a4j:commandButton>
+
+
+				</a4j:outputPanel>
+
+
+			</rich:panel>
+		</h:form>
+
+
+
+	</rich:modalPanel>
+
+</ui:composition>
+
+</html>

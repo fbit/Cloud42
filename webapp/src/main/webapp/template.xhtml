@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>#{messages.main_title}</title>
+
+<a4j:loadStyle src="/css/style.css" />
+
+</head>
+
+<body>
+
+<!-- <a4j:loadStyle src="/css/style.css"></a4j:loadStyle>-->
+
+
+<h:form id="titleform" rendered="#{identity.loggedIn}">
+	<!-- <rich:effect for="window" event="onmousemove" 
+    		type="Squish" params="targetId:'messageBox',duration:0.9" />-->
+
+	<div style="position: absolute; top: 4px; left: 17px;"><h:graphicImage
+		value="/images/style/logo_cloud.gif" /></div>
+
+	<div><rich:panel
+		style="height:60px; vertical-align:center; padding:-10px">
+
+		<table width="100%" border="0"
+			style="vertical-align: center; padding: 0px;">
+			<tr>
+				<td align="left" style="width:110px;">
+				<div id="spacer" style="height: 34px; width: 110px;"></div>
+				</td>
+				<td align="left">
+				<div id="messageBox" style="height: 34px; padding: 0px;"><rich:messages
+					globalOnly="true" layout="table" errorClass="message errorMessage"
+					infoClass="message" /></div>
+				</td>
+				<td align="right"><h:panelGrid id="grid" columns="7">
+
+					<h:outputText id="co1" value="#{messages.awsAccessKeyId}" />
+					<h:inputText id="ci1"
+						value="#{userManager.currentCredentials.awsAccessKeyId}" size="11" />
+
+					<h:outputText id="co2" value="#{messages.secretAccessKey}" />
+					<h:inputSecret id="ci2"
+						value="#{userManager.currentCredentials.secretAccessKey}"
+						size="11" />
+
+
+					<h:outputText id="co3" value="#{messages.userID}" />
+					<h:inputText id="ci3"
+						value="#{userManager.currentCredentials.userID}" size="11" />
+
+					<h:commandButton value="#{messages.save_credentials}"
+						action="#{userManager.saveCredentials}" />
+
+
+				</h:panelGrid></td>
+			</tr>
+		</table>
+	</rich:panel></div>
+</h:form>
+
+
+<ui:include src="popups/progressPanel.xhtml" />
+
+<ui:insert name="body">
+</ui:insert>
+
+
+<!-- footer -->
+
+<br/><br/>
+
+<ui:include src="footer.xhtml" />
+
+
+</body>
+
+</html>

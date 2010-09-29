@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+
+<ui:composition>
+	<h:form>
+
+		<rich:panel rendered="#{userManager.user.credentials!=null}">
+			<f:facet name="header">
+				<h:outputText value="#{messages.main_listOfSubscriptions}" />
+			</f:facet>
+
+			<a4j:region>
+
+
+				<rich:toolBar height="21" itemSeparator="line">
+					<rich:toolBarGroup>
+						<a4j:commandButton image="../images/arrow_refresh.png"
+							action="#{subscriptionManager.resetSubscriptionList}"
+							id="refresh_subscriptionList"
+							reRender="subscriptionList,progressPanel">
+
+							<rich:componentControl for="progressPanel" operation="show"
+								event="onclick" />
+
+						</a4j:commandButton>
+						<h:outputLabel value="#{messages.button_refresh}"
+							for="refresh_subscriptionList" />
+					</rich:toolBarGroup>
+
+					<rich:toolBarGroup>
+						<a4j:commandButton image="../images/add.png" id="add_s"
+							reRender="stopic, sendpoint">
+
+							<rich:componentControl for="subscriptionPanel" operation="show"
+								event="onclick" disableDefault="true" />
+
+
+						</a4j:commandButton>
+						<h:outputLabel value="#{messages.button_addSubscription}"
+							for="add_s" />
+					</rich:toolBarGroup>
+				</rich:toolBar>
+
+				<rich:dataTable id="subscriptionList" var="s"
+					value="#{subscriptionManager.subscriptionList}"
+					onRowMouseOver="this.style.backgroundColor='#F8F8F8'"
+					onRowMouseOut="this.style.backgroundColor='#{a4jSkin.tableBackgroundColor}'">
+
+					<rich:column sortBy="#{s.id}">
+						<f:facet name="header">
+	                   #{messages.main_table_subscriptionId}
+	            </f:facet>
+						<h:outputText value="#{s.id}" />
+					</rich:column>
+
+					<rich:column sortBy="#{s.topic}">
+						<f:facet name="header">
+	                   #{messages.main_table_subscriptionTopic}
+	            </f:facet>
+						<h:outputText value="#{s.topic}" />
+					</rich:column>
+
+					<rich:column sortBy="#{s.toEndpoint.address}">
+						<f:facet name="header">
+	                   #{messages.main_table_subscriptionEndpoint}
+	            </f:facet>
+						<h:outputText value="#{s.toEndpoint.address}" />
+					</rich:column>
+
+					<rich:column>
+
+						<a4j:commandButton reRender="subscriptionList"
+							image="../images/delete.png" id="deleteSubscription"
+							action="#{subscriptionManager.unsubscribe(s.id)}">
+
+							<rich:toolTip followMouse="true" showDelay="200">
+								<span style="white-space: nowrap"> <b>#{messages.main_tooltip_deleteSubscription}</b>
+								#{s.toEndpoint.address} </span>
+							</rich:toolTip>
+						</a4j:commandButton>
+
+					</rich:column>
+
+
+
+				</rich:dataTable>
+
+				<!--
+			<rich:datascroller align="left" for="keypairList" id="keypairListScroller" reRender="material" />
+			-->
+				<rich:spacer height="20" />
+				<br />
+				<h:outputText value="#{messages.main_subscriptionRemark}" />
+
+			</a4j:region>
+
+		</rich:panel>
+
+
+	</h:form>
+
+</ui:composition>
+
+</html>

@@ -1,0 +1,165 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+
+<ui:composition>
+	<rich:modalPanel id="bundling" resizeable="false" width="630"
+		height="582">
+		<f:facet name="header">
+			<h:panelGroup>
+				<h:outputText value="#{messages.main_bundlingPanelCaption}"></h:outputText>
+			</h:panelGroup>
+		</f:facet>
+		<f:facet name="controls">
+			<h:panelGroup>
+				<h:graphicImage value="/images/close.png" style="cursor:pointer"
+					id="hidelinkB" />
+				<rich:componentControl for="bundling" attachTo="hidelinkB"
+					operation="hide" event="onclick" />
+			</h:panelGroup>
+		</f:facet>
+
+		<h:form id="bundlingForm">
+
+			<h:inputHidden value="#{dnsName}" id="dnsNameB" />
+			<h:inputHidden value="#{keyName}" id="keyNameB" />
+
+			<rich:panel bodyClass="rich-laguna-panel-no-header lightBackground">
+
+
+				<h:outputText value="#{messages.main_bundleCaption}"
+					style="font-weight: bold" />
+
+				<rich:separator height="2" lineType="dashed" />
+
+				<br />
+
+				<table border="0" width="100%">
+					<tr>
+						<td class="col1"><h:outputText
+							value="#{messages.main_bundlingBucket}" /></td>
+						<td class="col2"><h:inputText id="bucket"
+							value="#{bundlingManager.bucket}" /></td>
+					</tr>
+
+
+					<tr>
+						<td class="col1"><h:outputText
+							value="#{messages.main_bundlingImageName}" /></td>
+						<td class="col2"><h:inputText id="imgname"
+							value="#{bundlingManager.imageName}" /></td>
+					</tr>
+
+					<tr>
+						<td class="col1"><h:outputText
+							value="#{messages.main_use64Bit}" /></td>
+						<td class="col2"><h:selectBooleanCheckbox id="use64Bit"
+							value="#{bundlingManager.use64Bit}" /></td>
+					</tr>
+
+
+
+					<tr>
+						<td class="col1"><h:outputText
+							value="#{messages.main_pkFile}" /></td>
+						<td class="col2"><rich:fileUpload
+							fileUploadListener="#{bundlingManager.fileUploadListenerPK}"
+							maxFilesQuantity="1" id="uploadPKFile" immediateUpload="true"
+							listHeight="60px">
+							<f:facet name="progress">
+								<rich:progressBar/>
+							</f:facet>
+							<!--  this is required to enable the Add button again after clearance -->
+							<a4j:support event="onclear" reRender="uploadPKFile" />
+						</rich:fileUpload></td>
+					</tr>
+
+					<tr>
+						<td class="col1"><h:outputText
+							value="#{messages.main_certFile}" /></td>
+						<td class="col2"><rich:fileUpload
+							fileUploadListener="#{bundlingManager.fileUploadListener}"
+							maxFilesQuantity="1" id="uploadCertFile" immediateUpload="true"
+							listHeight="60px">
+							<f:facet name="progress">
+								<rich:progressBar/>
+							</f:facet>
+
+							<!--  this is required to enable the Add button again after clearance -->
+							<a4j:support event="onclear" reRender="uploadCertFile" />
+						</rich:fileUpload></td>
+					</tr>
+				</table>
+
+				<h:outputText value="#{messages.main_bundleNotify}"
+					style="font-weight: bold" />
+
+				<rich:separator height="2" lineType="dashed" />
+
+				<br />
+
+				<table border="0" width="100%">
+					<tr>
+						<td class="col1"><h:outputText
+							value="#{messages.main_doNotify}" /></td>
+						<td class="col2"><h:selectBooleanCheckbox id="notifyB"
+							value="#{bundlingManager.doNotify}" /></td>
+					</tr>
+
+
+
+					<tr>
+						<td class="col1"><h:outputText
+							value="#{messages.main_bundlingNotiTopic}" /></td>
+						<td class="col2"><h:inputText id="topicname"
+							value="#{bundlingManager.messageTopic}" /></td>
+					</tr>
+
+
+
+					<tr>
+						<td class="col1"><h:outputText
+							value="#{messages.main_bundlingNotiText}" /></td>
+						<td class="col2"><h:inputText id="notitext"
+							value="#{bundlingManager.messageText}" size="60" /></td>
+					</tr>
+
+
+
+					<tr>
+						<td class="col1"><h:outputText
+							value="#{messages.main_bundlingNotiInfo}" /></td>
+						<td class="col2"><h:inputText id="notiinfo"
+							value="#{bundlingManager.messageInfo}" size="60" /></td>
+					</tr>
+				</table>
+
+
+
+				<br />
+				<br />
+
+				<a4j:commandButton value="#{messages.main_bundlingStart}"
+					reRender="actionButtons, bundlingGroup, buttonGroup"
+					action="#{bundlingManager.bundle(dnsName,keyName)}">
+
+					<rich:componentControl for="bundling" operation="hide"
+						event="onclick" />
+
+
+
+				</a4j:commandButton>
+				<br />
+				<i><h:outputText value="#{messages.main_bundlingRemark}" /></i>
+
+			</rich:panel>
+
+		</h:form>
+	</rich:modalPanel>
+</ui:composition>
+
+</html>

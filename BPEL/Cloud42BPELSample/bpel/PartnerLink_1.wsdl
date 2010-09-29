@@ -1,0 +1,16 @@
+<definitions
+    
+     targetNamespace="http://webservice.cloud42.jw.de"
+     xmlns="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+     xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     xmlns:ns="http://webservice.cloud42.jw.de"
+    >
+    <import namespace="http://webservice.cloud42.jw.de" location="http://localhost:8080/Cloud42WS/Cloud42BaseService?wsdl"/>
+    <plnk:partnerLinkType name="Cloud42BaseServicePortType_PL">
+        <plnk:role name="Cloud42BaseServicePortType_Role">
+            <plnk:portType name="ns:Cloud42BaseServicePortType"/>
+        </plnk:role>
+    </plnk:partnerLinkType>
+</definitions>
