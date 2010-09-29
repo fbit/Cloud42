@@ -14,7 +14,7 @@ Cloud42 is licensed under the GNU Lesser General Public License ([LGPL v3](http:
 Building and Running Cloud42
 --------------------------
 
-This section describes how to build Cloud42 from source. If you just want to use it, you can download the binaries (see link above) and skip directly to point 7.
+This section describes how to build Cloud42 from source. If you just want to use it, you can download the binaries (see link above) and skip directly to the last step.
 
 1. Go download&configure Maven 2 if you don't have it yet: [Download Maven](http://maven.apache.org/download.html). Cloud42 requires Java. It was developed using version 1.6, but it should be able to run on 1.5.x as well. In any case, check your Java installation and make sure your JAVA_HOME environment variable is set.
 
