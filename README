@@ -1,13 +1,15 @@
 Cloud42 - Management Framework for Amazon EC2
 ===========================================
 
-An introduction into Cloud42, the binaries as well as detailed documentation can be found on the official project website at http://cloud42.net .
+An introduction into Cloud42 as well as detailed documentation can be found on the official project website at http://cloud42.net .
+
+You can download the binaries from here: http://cloud42.net/download.php
 
 
 Building and Running Cloud42
 --------------------------
 
-This section describes how to build Cloud42. If you just want to use it, you can skip directly to point 7., since the binaries are included in this package.
+This section describes how to build Cloud42. If you just want to use it, you can download the binaries (see link above) and skip directly to point 7.
 
 1. Go download&configure Maven 2.0.9 if you don't have it yet: http://maven.apache.org/download.html. Cloud42 requires Java. It was developed using version 1.6, but it should be able to run on 1.5.x as well. In any case, check your Java installation and make sure your JAVA_HOME environment variable is set.
 
