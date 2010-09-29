@@ -18,7 +18,11 @@ This section describes how to build Cloud42 from source. If you just want to use
 
 1. Go download&configure Maven 2 if you don't have it yet: [Download Maven](http://maven.apache.org/download.html). Cloud42 requires Java. It was developed using version 1.6, but it should be able to run on 1.5.x as well. In any case, check your Java installation and make sure your JAVA_HOME environment variable is set.
 
-2. Cloud42 needs to know your AWS credentials to pass its unit tests. You have to enter them in the file core/module-configuration/src/main/resources/test-config.properties
+2. ***This step is only required if you want to use Cloud42 with Eucalyptus:***
+
+   You have to configure Cloud42 to connect to a server different from "ec2.amazonaws.com". For this purpose, we provided a configuration file located at core/service/src/main/resources/config.properties. Please read the comments in this file carefully and adjust all(!) the settings to your needs. 
+
+3. Cloud42 needs to know your AWS credentials to pass its unit tests. You have to enter them in the file core/module-configuration/src/main/resources/test-config.properties
 
    Note: This file also contains an option allowing you to enable all tests, including the ones that require starting and stopping instances (and therefore cause costs). Adjust it to your needs.
 
@@ -27,22 +31,22 @@ This section describes how to build Cloud42 from source. If you just want to use
    Note 3: If you do not know your credentials or even do not have an AWS account yet, building Cloud42 is possible though by skipping the tests. Simply add the parameter -Dmaven.test.skip to the "mvn clean install" mentioned below.
 
 
-3. Now execute a
+4. Now execute a
    > mvn clean install
 
    from the root directory (the directory that contains this file)
 
-4. Start the database. To run Cloud42, you have to start the HSQL database in server mode. Go to tools/hsqldb/database and type
+5. Start the database. To run Cloud42, you have to start the HSQL database in server mode. Go to tools/hsqldb/database and type
    > java -classpath ../lib/hsqldb.jar org.hsqldb.Server
 
-5. Run webapp:
+6. Run webapp:
 
    Now you can start the web application using Jetty, a lightweight container. From the webapp folder, run
    > mvn jetty:run
 
    Browse to http://localhost:8080/Cloud42 and enjoy.
 
-6. Run webservice
+7. Run webservice
 
    The webservice is a simple web application that includes the Axis2 Servlet. This means, you can deploy it without any installations or configurations.
    From the webservice folder, type
@@ -53,7 +57,7 @@ This section describes how to build Cloud42 from source. If you just want to use
    Note: if the web application from previous step is still running, you may want to use another port for the webservice. To do this, add the option -Djetty.port=8081 to your command.
 
 
-7. If you want to use the webapp or the webservice with any application server of your choice, just deploy the .war files from the target folders in webapp/ or webservice/.
+8. If you want to use the webapp or the webservice with any application server of your choice, just deploy the .war files from the target folders in webapp/ or webservice/.
 
 
 Working with the code
