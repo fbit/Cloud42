@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.jw.cloud42</groupId>
-  <version>1.2.0</version>
+  <version>1.2.1</version>
   <artifactId>app</artifactId>
   <packaging>pom</packaging>
   <name>Cloud42</name>
@@ -167,6 +167,6 @@
 		<seam.version>2.0.2.GA</seam.version>
 		<richfaces.version>3.2.2.SR1</richfaces.version>
 		<jetty.version>6.1.9</jetty.version>
-		<typica.version>1.6</typica.version>
+		<typica.version>1.7</typica.version>
 	</properties>
 </project>

@@ -4,7 +4,7 @@
 
   <groupId>de.jw.cloud42.core</groupId>
   <artifactId>module-configuration</artifactId>
-  <version>1.2.0</version>
+  <version>1.2.1</version>
   <packaging>jar</packaging>
   
   <name>Cloud42 Core - Module Configuration</name>
@@ -13,7 +13,7 @@
   <parent>
     <groupId>de.jw.cloud42.core</groupId>
     <artifactId>core</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
   </parent>
   
   

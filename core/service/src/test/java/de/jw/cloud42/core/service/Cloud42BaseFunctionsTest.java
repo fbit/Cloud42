@@ -4,8 +4,9 @@ package de.jw.cloud42.core.service;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
-import org.apache.commons.configuration.Configuration;
-import org.apache.commons.configuration.PropertiesConfiguration;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 import com.xerox.amazonws.ec2.GroupDescription;
 import com.xerox.amazonws.ec2.ImageDescription;
@@ -13,15 +14,8 @@ import com.xerox.amazonws.ec2.InstanceType;
 import com.xerox.amazonws.ec2.KeyPairInfo;
 import com.xerox.amazonws.ec2.ReservationDescription;
 
-
-
-
 import de.jw.cloud42.core.domain.AwsCredentials;
 import de.jw.cloud42.core.domain.Instance;
-import de.jw.cloud42.core.service.Cloud42BaseFunctions;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 /**
  * Unit test for Cloud42BaseFunctions service class.
@@ -63,7 +57,7 @@ public class Cloud42BaseFunctionsTest
     	
     	try {
     		
-    		Configuration config = new PropertiesConfiguration("test-config.properties");
+    		Cloud42Settings config = Cloud42Settings.getInstance("access.properties");
 
     		AwsCredentials cred = new AwsCredentials();
     		

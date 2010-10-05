@@ -4,7 +4,7 @@
   <groupId>de.jw.cloud42.core</groupId>
   <artifactId>core</artifactId>
   <packaging>pom</packaging>
-  <version>1.2.0</version>
+  <version>1.2.1</version>
  
   <name>Cloud42 Core</name>
   <description>The core of Cloud42 contains the domain objects and the service layer that is accessed by both the web application and the Web service module.</description>
@@ -12,7 +12,7 @@
   <parent>
         <groupId>de.jw.cloud42</groupId>
         <artifactId>app</artifactId>
-        <version>1.2.0</version>
+        <version>1.2.1</version>
   </parent>
 
   <modules>

@@ -4,7 +4,7 @@
   <groupId>de.jw.cloud42</groupId>
   <artifactId>webservice</artifactId>
   <packaging>war</packaging>
-  <version>1.2.0</version>
+  <version>1.2.1</version>
   
    <name>Cloud42 Web Service</name>
    <description>The Cloud42 Web service module allows to access the functions of Cloud42 via Web service.</description>
@@ -13,7 +13,7 @@
   <parent>
     <groupId>de.jw.cloud42</groupId>
     <artifactId>app</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
   </parent>
 
  	<build>
@@ -54,19 +54,19 @@
        <dependency>
           <groupId>de.jw.cloud42.core</groupId>
           <artifactId>service</artifactId>
-          <version>1.2.0</version>
+          <version>1.2.1</version>
        </dependency>
 
 	   <dependency>
           <groupId>de.jw.cloud42.core</groupId>
           <artifactId>endpoint</artifactId>
-          <version>1.2.0</version>
+          <version>1.2.1</version>
        </dependency>
 	   
 	    <dependency>
           <groupId>de.jw.cloud42.core</groupId>
           <artifactId>remoting</artifactId>
-          <version>1.2.0</version>
+          <version>1.2.1</version>
        </dependency>
 	   
 	   

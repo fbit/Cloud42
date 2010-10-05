@@ -52,7 +52,7 @@ public class Instance {
      * </ol>
      */
     private String state;
-    private int stateCode;
+    private String stateCode;
     
     
     //properties from ReservationDescription
@@ -150,7 +150,7 @@ public class Instance {
             return this.state.equals("terminated");
     }
 
-    public int getStateCode() {
+    public String getStateCode() {
             return stateCode;
     }
 

@@ -4,13 +4,13 @@
 package de.jw.cloud42.core.remoting;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-import org.apache.commons.configuration.Configuration;
-import org.apache.commons.configuration.PropertiesConfiguration;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 import com.xerox.amazonws.ec2.ImageDescription;
 import com.xerox.amazonws.ec2.InstanceType;
@@ -19,12 +19,8 @@ import com.xerox.amazonws.ec2.KeyPairInfo;
 import de.jw.cloud42.core.domain.AwsCredentials;
 import de.jw.cloud42.core.domain.Instance;
 import de.jw.cloud42.core.domain.RemoteResult;
-import de.jw.cloud42.core.remoting.RemoteControl;
 import de.jw.cloud42.core.service.Cloud42BaseFunctions;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import de.jw.cloud42.core.service.Cloud42Settings;
 
 /**
  * Unit testclass for RemoteControl.
@@ -68,8 +64,7 @@ public class RemoteControlTest extends TestCase {
 
 		try {
 
-			Configuration config = new PropertiesConfiguration(
-					"test-config.properties");
+			Cloud42Settings config = Cloud42Settings.getInstance("access.properties");
 
 			AwsCredentials cred = new AwsCredentials();
 

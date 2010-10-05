@@ -2,13 +2,13 @@
   <parent>
     <artifactId>core</artifactId>
     <groupId>de.jw.cloud42.core</groupId>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.jw.cloud42.core</groupId>
   <artifactId>endpoint</artifactId>
   <name>Cloud42 Core - Endpoint</name>
-  <version>1.2.0</version>
+  <version>1.2.1</version>
  <!-- <build>
   <plugins>
   <plugin>
@@ -40,7 +40,7 @@
     <dependency>
           <groupId>de.jw.cloud42.core</groupId>
           <artifactId>eventing</artifactId>
-          <version>1.2.0</version>
+          <version>1.2.1</version>
        </dependency>
   </dependencies>
 </project>

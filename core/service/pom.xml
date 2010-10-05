@@ -5,7 +5,7 @@
 	<groupId>de.jw.cloud42.core</groupId>
 	<artifactId>service</artifactId>
 	<packaging>jar</packaging>
-	<version>1.2.0</version>
+	<version>1.2.1</version>
 
 	<name>Cloud42 Core - Base Service</name>
 	<description>
@@ -17,7 +17,7 @@
 	<parent>
 		<groupId>de.jw.cloud42.core</groupId>
 		<artifactId>core</artifactId>
-		<version>1.2.0</version>
+		<version>1.2.1</version>
 	</parent>
 
 	<dependencies>
@@ -28,14 +28,14 @@
 		<dependency>
 			<groupId>de.jw.cloud42.core</groupId>
 			<artifactId>domain</artifactId>
-			<version>1.2.0</version>
+			<version>1.2.1</version>
 		</dependency>
 
 		<!-- module configuration in scope test to omit configuration file containing AWS credentials being compiled into the project's WAR file -->
 		<dependency>
 			<groupId>de.jw.cloud42.core</groupId>
 			<artifactId>module-configuration</artifactId>
-			<version>1.2.0</version>
+			<version>1.2.1</version>
 			<scope>test</scope>
 		</dependency>
 

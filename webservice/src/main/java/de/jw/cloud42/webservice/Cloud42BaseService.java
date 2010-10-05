@@ -10,6 +10,7 @@ import java.util.List;
 import com.xerox.amazonws.ec2.AvailabilityZone;
 import com.xerox.amazonws.ec2.ConsoleOutput;
 import com.xerox.amazonws.ec2.ImageDescription;
+import com.xerox.amazonws.ec2.InstanceStateChangeDescription;
 import com.xerox.amazonws.ec2.InstanceType;
 import com.xerox.amazonws.ec2.KeyPairInfo;
 import com.xerox.amazonws.ec2.RegionInfo;
@@ -239,7 +240,7 @@ public class Cloud42BaseService {
 		 * @see de.jw.cloud42.core.service.Cloud42BaseFunctions#stopInstance(java.lang.String)
 		 *
 		 */
-		public TerminatingInstanceDescription stopInstance(AwsCredentials credentials, String regionUrl, String instanceId){
+		public InstanceStateChangeDescription stopInstance(AwsCredentials credentials, String regionUrl, String instanceId){
 			
 			Cloud42BaseFunctions f = new Cloud42BaseFunctions();
 			f.setCredentials(credentials);

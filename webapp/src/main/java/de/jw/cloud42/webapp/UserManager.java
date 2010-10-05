@@ -3,15 +3,12 @@
  */
 package de.jw.cloud42.webapp;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import javax.faces.application.FacesMessage;
 
-import org.apache.commons.configuration.Configuration;
-import org.apache.commons.configuration.PropertiesConfiguration;
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.jboss.seam.ScopeType;
@@ -23,6 +20,7 @@ import org.jboss.seam.faces.FacesMessages;
 import de.jw.cloud42.core.domain.AwsCredentials;
 import de.jw.cloud42.core.domain.KeypairMapping;
 import de.jw.cloud42.core.domain.User;
+import de.jw.cloud42.core.service.Cloud42Settings;
 
 /**
  * Holds current user and credentials. Also contains logic for managing the user's RSA private keys.
@@ -103,8 +101,8 @@ public class UserManager {
 		
 			
 			//set the default region for the user from the settins file
-			Configuration config = new PropertiesConfiguration("config.properties");
-
+			Cloud42Settings config = Cloud42Settings.getInstance("config.properties");
+			
 			String regionUrl = config.getString("regionUrl");
 			
 			if (regionUrl != null && regionUrl != ""){

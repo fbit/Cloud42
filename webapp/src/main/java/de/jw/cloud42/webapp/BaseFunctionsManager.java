@@ -23,6 +23,7 @@ import com.xerox.amazonws.ec2.AvailabilityZone;
 import com.xerox.amazonws.ec2.ConsoleOutput;
 import com.xerox.amazonws.ec2.GroupDescription;
 import com.xerox.amazonws.ec2.ImageDescription;
+import com.xerox.amazonws.ec2.InstanceStateChangeDescription;
 import com.xerox.amazonws.ec2.InstanceType;
 import com.xerox.amazonws.ec2.KeyPairInfo;
 import com.xerox.amazonws.ec2.RegionInfo;
@@ -645,7 +646,7 @@ public class BaseFunctionsManager {
 		
 		
 		
-		TerminatingInstanceDescription result = null;
+		InstanceStateChangeDescription result = null;
 		
 		AwsCredentials cred = userManager.getUser().getCredentials();
 		if (cred!=null){

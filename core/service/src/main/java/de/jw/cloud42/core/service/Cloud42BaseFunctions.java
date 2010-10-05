@@ -6,10 +6,18 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.apache.commons.configuration.Configuration;
-import org.apache.commons.configuration.PropertiesConfiguration;
-
-import com.xerox.amazonws.ec2.*; //import com.xerox.amazonws.ec2.ReservationDescription.Instance;
+import com.xerox.amazonws.ec2.AvailabilityZone;
+import com.xerox.amazonws.ec2.ConsoleOutput;
+import com.xerox.amazonws.ec2.GroupDescription;
+import com.xerox.amazonws.ec2.ImageDescription;
+import com.xerox.amazonws.ec2.InstanceStateChangeDescription;
+import com.xerox.amazonws.ec2.InstanceType;
+import com.xerox.amazonws.ec2.Jec2;
+import com.xerox.amazonws.ec2.KeyPairInfo;
+import com.xerox.amazonws.ec2.LaunchConfiguration;
+import com.xerox.amazonws.ec2.RegionInfo;
+import com.xerox.amazonws.ec2.ReservationDescription;
+import com.xerox.amazonws.ec2.TerminatingInstanceDescription;
 
 import de.jw.cloud42.core.domain.Instance;
 
@@ -289,7 +297,7 @@ public class Cloud42BaseFunctions extends Cloud42Functions {
 	 * @param instanceId
 	 * @return TerminatingInstanceDescription or null in case of error.
 	 */
-	public TerminatingInstanceDescription stopInstance(String instanceId) {
+	public InstanceStateChangeDescription stopInstance(String instanceId) {
 
 		// initialize the interface
 		Jec2 ec2 = this.initConnection();
@@ -883,21 +891,19 @@ public class Cloud42BaseFunctions extends Cloud42Functions {
 		
 		try {
 			
-		
-		
-			Configuration config = new PropertiesConfiguration("config.properties");
+			Cloud42Settings config = Cloud42Settings.getInstance("config.properties");
 
 			boolean isSecure = config.getBoolean("useHTTPS");
 			
 			// initialize the interface
 			Jec2 ec2 = new Jec2(getCredentials().getAwsAccessKeyId(),
 					getCredentials().getSecretAccessKey(), isSecure, config.getString("server"),
-					config.getInt("port"));
+					config.getInteger("port"));
 			
 			
 			ec2.setResourcePrefix(config.getString("resourcePrefix"));
 			
-			ec2.setSignatureVersion(config.getInt("signatureVersion"));
+			ec2.setSignatureVersion(config.getInteger("signatureVersion"));
 		
 			//set region
 			if (this.getRegionUrl() != null && !this.getRegionUrl().equals("")){

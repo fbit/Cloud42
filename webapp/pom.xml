@@ -7,7 +7,7 @@
     <groupId>de.jw.cloud42</groupId>
     <artifactId>webapp</artifactId>
     <packaging>war</packaging>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
     
     <name>Cloud42 Web Application</name>
   	<description>This is the web application of Cloud42. It provides an user interface which can be used to manage your Amazon EC2 account by registering new AMI's, controlling instances, creating groups and permissions and much more.</description>
@@ -15,7 +15,7 @@
     <parent>
         <groupId>de.jw.cloud42</groupId>
         <artifactId>app</artifactId>
-        <version>1.2.0</version>
+        <version>1.2.1</version>
     </parent>
 
 
@@ -164,21 +164,21 @@
         <dependency>
           <groupId>de.jw.cloud42.core</groupId>
           <artifactId>service</artifactId>
-          <version>1.2.0</version>
+          <version>1.2.1</version>
        </dependency>
 	   
 	   <!--remoting-->
 	   <dependency>
           <groupId>de.jw.cloud42.core</groupId>
           <artifactId>remoting</artifactId>
-          <version>1.2.0</version>
+          <version>1.2.1</version>
        </dependency>
 	   
 	   <!-- eventing (needed for subscription management -->
 	   <dependency>
           <groupId>de.jw.cloud42.core</groupId>
           <artifactId>eventing</artifactId>
-          <version>1.2.0</version>
+          <version>1.2.1</version>
        </dependency>
 
 

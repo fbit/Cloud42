@@ -5,7 +5,7 @@
 	<groupId>de.jw.cloud42.core</groupId>
 	<artifactId>domain</artifactId>
 	<packaging>jar</packaging>
-	<version>1.2.0</version>
+	<version>1.2.1</version>
 
 	<name>Cloud42 Core - Domain Objects</name>
 	<description>
@@ -15,7 +15,7 @@
 	<parent>
 		<groupId>de.jw.cloud42.core</groupId>
 		<artifactId>core</artifactId>
-		<version>1.2.0</version>
+		<version>1.2.1</version>
 	</parent>
 
 	<dependencies>
@@ -26,7 +26,7 @@
 			<version>${typica.version}</version>
 		</dependency>
 		<!-- these are the dependencies of typica, since typica itself is not fetched from a public maven repository -->
-		<dependency>
+		<!--<dependency>
 			<groupId>commons-httpclient</groupId>
 			<artifactId>commons-httpclient</artifactId>
 			<version>3.1</version>
@@ -50,7 +50,7 @@
 			<groupId>javax.activation</groupId>
 			<artifactId>activation</artifactId>
 			<version>1.1</version>
-		</dependency>
+		</dependency>-->
 
 
 		<!-- internal dependencies -->
@@ -58,14 +58,14 @@
 		<dependency>
 			<groupId>de.jw.cloud42.core</groupId>
 			<artifactId>module-hibernate</artifactId>
-			<version>1.2.0</version>
+			<version>1.2.1</version>
 		</dependency>
 		
 		<!-- use commons-configuration for Unit testing -->
 		<dependency>
 			<groupId>commons-configuration</groupId>
 			<artifactId>commons-configuration</artifactId>
-			<version>1.5</version>
+			<version>1.6</version>
 		</dependency>
 
 
