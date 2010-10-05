@@ -57,15 +57,13 @@ This section describes how to build Cloud42 from source.
 
 2. ***This step is only required if you want to use Cloud42 with Eucalyptus or any other cloud backend other than Amazon EC2:***
 
-   You have to configure Cloud42 to connect to a server different from "ec2.amazonaws.com". For this purpose, we provided a configuration file located at core/service/src/main/resources/config.properties. Please read the comments in this file carefully and adjust all(!) the settings to your needs. You have to copy the file to /etc/cloud42/config.properties or into your home folder (on Windows!).
+   You have to configure Cloud42 to connect to a server different from "ec2.amazonaws.com". For this purpose, we provided a (sample) configuration file located at core/service/src/main/resources/config.properties. You should copy the file to /etc/cloud42/config.properties or into your home folder (on Windows!). Please read the comments in the file carefully and adjust all(!) the settings to your needs.
 
-3. Cloud42 needs to know your AWS credentials to pass its unit tests. You have to enter them in the file core/module-configuration/src/main/resources/access.properties. Afterwards, copy the file to the cloud42 configuration folder /etc/cloud42 or into your home folder.
+3. Cloud42 needs to know your AWS credentials to pass its unit tests. To create the configuration, copy the file core/module-configuration/src/main/resources/access.properties to /etc/cloud42 or into your home folder, open it and fill in your keys.
 
    Note: This file also contains an option allowing you to enable all tests, including the ones that require starting and stopping instances (and therefore cause costs). Adjust it to your needs.
 
-   Note 2: Don't worry, the configuration file containing your AWS credentials will not be included in the resulting WAR file when building Cloud42, since it is only referenced in scope "test".
-
-   Note 3: If you do not know your credentials or even do not have an AWS account yet, building Cloud42 is possible though by skipping the tests. Simply add the parameter -Dmaven.test.skip to the "mvn clean install" mentioned below.
+   Note 2: If you do not know your credentials or even do not have an AWS account yet, building Cloud42 is possible though by skipping the tests. Simply add the parameter -Dmaven.test.skip to the "mvn clean install" mentioned below.
 
 
 4. Now execute a
